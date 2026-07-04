@@ -94,4 +94,39 @@
   document.querySelectorAll('.garden span').forEach(function (g) {
     g.addEventListener('click', function () { pop(g); });
   });
+
+  /* cute visitor counter — today's + total, via CounterAPI */
+  (function () {
+    var bar = document.getElementById('visitorBar');
+    if (!bar || !window.fetch) return;
+    var base = 'https://api.counterapi.dev/v1/chiapatricia-github-io/';
+    var day = new Date().toISOString().slice(0, 10);
+    var incToday = false, incTotal = false;
+    try {
+      if (!localStorage.getItem('seen-' + day)) { localStorage.setItem('seen-' + day, '1'); incToday = true; }
+      if (!sessionStorage.getItem('seen')) { sessionStorage.setItem('seen', '1'); incTotal = true; }
+    } catch (e) {}
+    function counter(key, inc) {
+      return fetch(base + key + (inc ? '/up' : '/'))
+        .then(function (r) { return r.json(); })
+        .then(function (d) { return d.count; });
+    }
+    function countUp(el, n) {
+      var t0 = null;
+      function step(t) {
+        if (!t0) t0 = t;
+        var p = Math.min((t - t0) / 700, 1);
+        el.textContent = Math.round(n * (1 - Math.pow(1 - p, 3))).toLocaleString();
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+    Promise.all([counter('today-' + day, incToday), counter('total', incTotal)])
+      .then(function (v) {
+        bar.hidden = false;
+        countUp(bar.querySelector('[data-v="today"]'), v[0]);
+        countUp(bar.querySelector('[data-v="total"]'), v[1]);
+      })
+      .catch(function () { /* counter service unavailable: keep the bar hidden */ });
+  })();
 })();
