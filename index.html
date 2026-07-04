@@ -44,24 +44,41 @@
   <!-- ================= Hero ================= -->
   <section class="hero">
     <svg class="hero-garden" viewBox="0 0 220 300" xmlns="http://www.w3.org/2000/svg" fill="none" aria-hidden="true">
-      <defs><radialGradient id="hgt" cx="35%" cy="30%" r="90%"><stop offset="0" stop-color="#FF8E63"/><stop offset=".55" stop-color="#F25130"/><stop offset="1" stop-color="#D93A1F"/></radialGradient></defs>
-      <path d="M196 -6 C 178 48, 196 96, 172 148 C 154 186, 166 232, 148 292" stroke="#5C8A57" stroke-width="3" stroke-linecap="round"/>
-      <path d="M186 70 q -16 0 -15 11 q 1 9 10 8 q 7 -1 6 -8" stroke="#6C9765" stroke-width="1.6" stroke-linecap="round"/>
-      <path d="M162 210 q 15 3 13 13 q -2 9 -11 7" stroke="#6C9765" stroke-width="1.6" stroke-linecap="round"/>
-      <path d="M190 40 C 176 30, 160 32, 150 42 C 162 50, 178 50, 190 40 Z" fill="#4E8A54"/>
-      <path d="M188 40 C 178 36, 168 37, 158 42" stroke="#7FB07A" stroke-width="1.2" stroke-linecap="round"/>
-      <path d="M180 122 C 194 112, 210 114, 219 124 C 208 132, 191 132, 180 122 Z" fill="#6BA36A"/>
-      <path d="M182 122 C 192 118, 202 119, 212 124" stroke="#9CC79A" stroke-width="1.2" stroke-linecap="round"/>
-      <path d="M160 178 C 146 168, 130 170, 120 180 C 132 188, 148 188, 160 178 Z" fill="#4E8A54"/>
-      <path d="M154 252 C 168 242, 184 244, 193 254 C 182 262, 165 262, 154 252 Z" fill="#6BA36A"/>
-      <path d="M172 148 C 168 158, 162 164, 158 170" stroke="#5C8A57" stroke-width="2" stroke-linecap="round"/>
-      <circle cx="152" cy="192" r="24" fill="url(#hgt)"/>
-      <ellipse cx="144" cy="184" rx="7" ry="4.5" fill="#fff" opacity=".35" transform="rotate(-24 144 184)"/>
-      <path d="M158 170 C 150 172, 146 172, 140 176 C 148 180, 156 179, 160 174 C 164 172, 162 170, 158 170 Z" fill="#3E9B4F"/>
-      <path d="M148 292 C 146 282, 142 276, 138 272" stroke="#5C8A57" stroke-width="2" stroke-linecap="round"/>
-      <circle cx="132" cy="262" r="14" fill="#E8A13D"/>
-      <ellipse cx="127" cy="257" rx="4" ry="2.6" fill="#fff" opacity=".4" transform="rotate(-24 127 257)"/>
-      <path d="M138 272 q -8 -2 -12 -6 q 8 -1 12 2 z" fill="#3E9B4F"/>
+      <!-- faint golden swirls, à la Starry Night -->
+      <path d="M42 62 q 20 -18 38 -2 q 14 12 2 24 q -10 10 -20 2 q -8 -7 -1 -14 q 5 -5 10 -1" stroke="#F2C043" stroke-width="5" stroke-linecap="round" opacity=".26"/>
+      <path d="M64 218 q 16 -14 30 -2 q 10 9 1 18 q -8 8 -16 1 q -6 -5 0 -11" stroke="#F2C043" stroke-width="4" stroke-linecap="round" opacity=".2"/>
+      <!-- vine: layered brushstrokes -->
+      <path d="M196 -6 C 178 48, 196 96, 172 148 C 154 186, 166 232, 148 292" stroke="#4E6B3A" stroke-width="4.5" stroke-linecap="round"/>
+      <path d="M194 -4 C 177 46, 194 94, 170 146 C 153 184, 165 230, 147 288" stroke="#8FAE5D" stroke-width="1.6" stroke-linecap="round" opacity=".85"/>
+      <path d="M186 70 q -16 0 -15 11 q 1 9 10 8 q 7 -1 6 -8" stroke="#6C8A45" stroke-width="2" stroke-linecap="round"/>
+      <!-- leaves built from stacked strokes -->
+      <path d="M190 40 C 174 28, 156 30, 146 42 C 158 52, 178 52, 190 40 Z" fill="#4E7B44"/>
+      <path d="M188 40 C 178 35, 166 36, 154 42" stroke="#8FBE72" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M182 45 C 174 41, 166 42, 158 45" stroke="#2F5B2E" stroke-width="1.3" stroke-linecap="round" opacity=".8"/>
+      <path d="M186 36 C 178 32, 170 33, 162 37" stroke="#B9D98A" stroke-width="1.1" stroke-linecap="round" opacity=".9"/>
+      <path d="M180 122 C 196 110, 214 112, 220 124 C 208 134, 190 134, 180 122 Z" fill="#6B9A4F"/>
+      <path d="M182 122 C 192 117, 204 118, 214 124" stroke="#C6E39A" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M186 127 C 196 123, 204 124, 212 128" stroke="#3E6B36" stroke-width="1.3" stroke-linecap="round" opacity=".8"/>
+      <!-- hanging Van Gogh tomato: paint-band strokes over the sphere -->
+      <path d="M172 148 C 168 158, 162 164, 158 170" stroke="#4E6B3A" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="150" cy="194" r="25" fill="#E0492A"/>
+      <path d="M132 186 a 24 24 0 0 1 14 -14" stroke="#FF8B5E" stroke-width="3.4" stroke-linecap="round"/>
+      <path d="M130 198 a 25 25 0 0 1 6 -18" stroke="#FFB08F" stroke-width="2.4" stroke-linecap="round" opacity=".9"/>
+      <path d="M170 206 a 25 25 0 0 1 -16 12" stroke="#B33418" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M173 191 a 25 25 0 0 1 -4 14" stroke="#C6371A" stroke-width="2.6" stroke-linecap="round" opacity=".85"/>
+      <path d="M141 212 a 25 25 0 0 0 12 6" stroke="#F06A3F" stroke-width="2.4" stroke-linecap="round" opacity=".9"/>
+      <path d="M158 170 C 150 172, 146 172, 140 176 C 148 180, 156 179, 160 174 C 164 172, 162 170, 158 170 Z" fill="#3E7B3E"/>
+      <path d="M150 173 l -4 6 M156 174 l 1 7" stroke="#2F5B2E" stroke-width="1.2" stroke-linecap="round"/>
+      <!-- a little sunflower on the vine, echoing the visitor bar -->
+      <g transform="translate(146 254)">
+        <polygon points="16,0 7.4,3.1 11.3,11.3 3.1,7.4 0,16 -3.1,7.4 -11.3,11.3 -7.4,3.1 -16,0 -7.4,-3.1 -11.3,-11.3 -3.1,-7.4 0,-16 3.1,-7.4 11.3,-11.3 7.4,-3.1" fill="#E9A81C"/>
+        <polygon points="13.6,0 6.3,2.6 9.6,9.6 2.6,6.3 0,13.6 -2.6,6.3 -9.6,9.6 -6.3,2.6 -13.6,0 -6.3,-2.6 -9.6,-9.6 -2.6,-6.3 0,-13.6 2.6,-6.3 9.6,-9.6 6.3,-2.6" fill="#F2C043" transform="rotate(22.5)"/>
+        <circle r="6.5" fill="#6B4013"/>
+        <circle cx="-2.4" cy="-1.6" r=".9" fill="#9C6B2F"/>
+        <circle cx="2" cy="-.8" r=".9" fill="#9C6B2F"/>
+        <circle cx="-.6" cy="2.4" r=".9" fill="#9C6B2F"/>
+        <circle cx="2.6" cy="2.8" r=".8" fill="#8A5A22"/>
+      </g>
     </svg>
     <div class="container">
       <div class="hero-grid rise">

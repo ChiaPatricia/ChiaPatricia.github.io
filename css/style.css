@@ -677,13 +677,13 @@ time, .num, .date { font-variant-numeric: tabular-nums; }
   gap: 9px;
   font-size: 12.5px;
   font-weight: 500;
-  color: #6B4514;
+  color: #8A6420;
   background: radial-gradient(130% 220% at 15% 0%,
-      #F9DC6C 0%, #F2C043 38%, #E5A722 72%, #D6941B 100%);
-  border: 1.5px solid #B97F1F;
+      #FCF1B0 0%, #F9E285 40%, #F4D162 75%, #EEC34B 100%);
+  border: 1.5px solid #DDB95E;
   border-radius: var(--pill);
   padding: 7px 16px;
-  box-shadow: inset 0 0 0 3px rgba(255, 244, 200, .38);
+  box-shadow: inset 0 0 0 3px rgba(255, 250, 226, .55);
   transition: transform var(--fast) var(--ease), box-shadow var(--fast) var(--ease);
 }
 .visitor-bar:hover {
@@ -691,12 +691,12 @@ time, .num, .date { font-variant-numeric: tabular-nums; }
   box-shadow: inset 0 0 0 3px rgba(255, 244, 200, .38), var(--shadow-1);
 }
 .visitor-bar strong {
-  color: #7C3E0A;
+  color: #A8651B;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   margin-left: 2px;
 }
-.visitor-bar .v-sep { color: #A87427; }
+.visitor-bar .v-sep { color: #C09A44; }
 .visitor-bar .v-sun {
   height: 18px;
   width: 18px;
