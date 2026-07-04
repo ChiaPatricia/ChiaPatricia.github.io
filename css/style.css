@@ -481,28 +481,47 @@ time, .num, .date { font-variant-numeric: tabular-nums; }
 .card-links a:hover { text-decoration: underline; }
 
 /* ============================================================
-   Experience — timeline
+   Experience — clean hairline rows, no boxes
    ============================================================ */
-.xp-block { margin-bottom: 48px; }
-.xp-block > h2 { font-size: 22px; margin-bottom: 24px; }
+.xp-block { margin-bottom: 40px; }
+.xp-block > h2 { font-size: 22px; margin-bottom: 8px; }
 .xp {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 8px 24px;
-  padding: 20px 24px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: #fff;
-  margin-bottom: 16px;
-  border-left: 3px solid var(--xc, var(--blue));
+  gap: 2px 24px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
 }
-.xp h3 { font-size: 16.5px; }
-.xp .org { font-size: 14px; font-weight: 500; color: var(--muted); margin-top: 2px; }
+.xp h3 {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.xp h3::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: var(--pill);
+  background: var(--xc, var(--blue));
+  flex-shrink: 0;
+}
+.xp .org { font-size: 14px; font-weight: 500; color: var(--muted); margin-top: 2px; padding-left: 18px; }
 .xp .date { font-size: 13px; font-weight: 500; color: var(--faint); white-space: nowrap; padding-top: 3px; }
-.xp .body { grid-column: 1 / -1; font-size: 14px; color: var(--muted); }
-.xp .body ul { margin: 4px 0 0; padding-left: 18px; }
+.xp .body { grid-column: 1 / -1; font-size: 14px; color: var(--muted); padding-left: 18px; }
+.xp .body ul { margin: 4px 0 0; padding-left: 16px; }
 .xp .body li { margin-top: 4px; }
 .xp .body li::marker { color: var(--xc, var(--blue)); }
+
+/* skills — plain two-column groups */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 48px;
+}
+.skill { padding: 12px 0; border-bottom: 1px solid var(--line); }
+.skill h3 { font-size: 14px; font-weight: 650; color: var(--sc, var(--blue-deep)); margin-bottom: 3px; }
+.skill p { font-size: 13.5px; color: var(--muted); }
 
 /* ============================================================
    Awards — generous single-column rows, medal emoji, big year
