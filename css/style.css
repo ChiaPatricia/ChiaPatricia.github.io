@@ -163,12 +163,12 @@ time, .num, .date { font-variant-numeric: tabular-nums; }
 
 /* signature flourish: an earthy branch that grows in, with a little
    magpie perched on it (喜鹊报喜) */
-.hero-flourish { margin: 4px 0 2px; }
-.hero-flourish svg { height: 38px; width: auto; overflow: visible; display: block; }
+.hero-flourish { margin: 6px 0 4px; overflow: hidden; }
+.hero-flourish svg { height: 46px; width: auto; display: block; }
 .hero-flourish .stem {
-  stroke-dasharray: 260;
-  stroke-dashoffset: 260;
-  animation: grow 1s var(--ease) .15s forwards;
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  animation: grow 1.1s var(--ease) .15s forwards;
 }
 @keyframes grow { to { stroke-dashoffset: 0; } }
 .hero-flourish .leaf {
@@ -692,7 +692,7 @@ html[lang^="zh"] .news-card p, html[lang^="zh"] .news-list p { line-height: 1.8;
   .hero-grid { flex-direction: column; align-items: flex-start; gap: 20px; }
   .hero-avatar { width: 120px; height: 120px; border-radius: 14px; }
   .hero h1 { font-size: 30px; }
-  .hero-flourish svg { height: 32px; }
+  .hero-flourish svg { height: 38px; }
 
   .award { grid-template-columns: auto 1fr; padding: 20px; gap: 16px; }
   .award .a-when { grid-column: 2; text-align: left; }
