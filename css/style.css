@@ -149,17 +149,17 @@ time, .num, .date { font-variant-numeric: tabular-nums; }
    ============================================================ */
 .edge-art { pointer-events: none; }
 .edge-art svg {
-  position: fixed;
-  width: 100px;
+  position: absolute;          /* placed by JS from the News section down */
+  width: 96px;
   height: auto;
   opacity: .55;
   z-index: 1;
   animation: floaty 6s ease-in-out infinite alternate;
 }
-.edge-art .ea-1 { left: 22px; top: 118px; transform: rotate(-10deg); }
-.edge-art .ea-2 { left: 30px; top: 58%; width: 86px; transform: rotate(8deg); animation-delay: 1.2s; }
-.edge-art .ea-3 { right: 24px; top: 24%; width: 88px; transform: rotate(9deg); animation-delay: .6s; }
-.edge-art .ea-4 { right: 32px; top: 72%; width: 74px; transform: rotate(-8deg); animation-delay: 1.8s; }
+.edge-art .ea-1 { left: 22px; transform: rotate(-10deg); }
+.edge-art .ea-2 { right: 30px; width: 84px; transform: rotate(8deg); animation-delay: 1.2s; }
+.edge-art .ea-3 { left: 26px; width: 86px; transform: rotate(9deg); animation-delay: .6s; }
+.edge-art .ea-4 { right: 32px; width: 74px; transform: rotate(-8deg); animation-delay: 1.8s; }
 @keyframes floaty {
   from { translate: 0 0; }
   to   { translate: 0 -10px; }

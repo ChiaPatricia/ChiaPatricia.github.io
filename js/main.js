@@ -95,6 +95,24 @@
     g.addEventListener('click', function () { pop(g); });
   });
 
+  /* margin fruits live below the News section, spread down the page */
+  var edge = document.querySelector('.edge-art');
+  if (edge) {
+    var fruits = edge.querySelectorAll('svg');
+    var placeFruits = function () {
+      var news = document.getElementById('news');
+      var start = (news ? news.offsetTop : 420) + 80;
+      var end = document.documentElement.scrollHeight - 440;
+      var span = Math.max(end - start, 240);
+      fruits.forEach(function (s, i) {
+        s.style.top = Math.round(start + span * (i / Math.max(fruits.length - 1, 1))) + 'px';
+      });
+    };
+    placeFruits();
+    window.addEventListener('load', placeFruits);
+    window.addEventListener('resize', placeFruits);
+  }
+
   /* cute visitor counter — today's + total, via CounterAPI */
   (function () {
     var bar = document.getElementById('visitorBar');
