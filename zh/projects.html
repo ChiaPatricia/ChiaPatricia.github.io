@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>项目 — Jia Xu</title>
+  <meta name="description" content="Jia Xu 的项目，MentalChat16K、MentalGPT、MoodShaker、ElderlyCo、糖尿病视网膜病变检测等 AI × 医疗作品。">
+  <link rel="canonical" href="https://chiapatricia.github.io/zh/projects.html">
+  <link rel="alternate" hreflang="en" href="https://chiapatricia.github.io/projects.html">
+  <link rel="alternate" hreflang="zh" href="https://chiapatricia.github.io/zh/projects.html">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <meta property="og:title" content="项目 — Jia Xu">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="/zh/">Jia Xu<span class="dot">.</span></a>
+    <button class="menu-btn" aria-label="菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+    <nav class="site-nav">
+      <a class="nav-link" href="/zh/">首页</a>
+      <a class="nav-link" href="/zh/publications.html">论文</a>
+      <a class="nav-link" aria-current="page" href="/zh/projects.html">项目</a>
+      <a class="nav-link" href="/zh/experience.html">经历</a>
+      <a class="nav-link" href="/zh/awards.html">荣誉</a>
+      <a class="nav-link" href="/zh/hobbies.html">爱好</a>
+      <div class="lang-switch" role="group" aria-label="语言">
+        <a data-lang="en" href="/projects.html">EN</a>
+        <a class="active" data-lang="zh" href="/zh/projects.html">中</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="page-head">
+    <div class="container rise">
+      <h1>项目</h1>
+      <p class="sub">从基准数据集、大模型微调到获奖的黑客松作品，每个项目都连接着 AI 研究与真实的人类需求。</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="card-grid reveal">
+
+        <article class="card" style="--cc:var(--green-deep);--cc-soft:var(--green-soft)">
+          <div class="cover c-mentalchat">
+            <span class="emoji">💬</span>
+          </div>
+          <div class="card-body">
+            <h3>MentalChat16K</h3>
+            <p class="desc">包含 16K 条心理咨询对话的基准数据集，用于心理健康大模型的训练与评测。基于其微调的 LLaMA-2、Mistral、Vicuna 与 Zephyr 在 7 项指标上较基座模型提升 30%。</p>
+            <div class="card-meta">
+              <span class="chip hl">KDD ’25 口头报告</span><span class="chip">基准数据集</span><span class="chip">开源</span>
+            </div>
+            <div class="card-links">
+              <a href="https://huggingface.co/datasets/ShenLab/MentalChat16K" target="_blank" rel="noopener">Hugging Face</a>
+              <a href="https://doi.org/10.1145/3711896.3737393" target="_blank" rel="noopener">论文</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" style="--cc:var(--blue-deep);--cc-soft:var(--blue-soft)">
+          <div class="cover c-mentalgpt">
+            <span class="emoji">🧠</span>
+          </div>
+          <div class="card-body">
+            <h3>MentalGPT</h3>
+            <p class="desc">基于 MentalChat16K 微调的大语言模型系统，在 7 项心理健康指标上超越基座模型与基线，由人类专家与 LLM 评审（GPT-3.5、Gemini Pro）共同评估。</p>
+            <div class="card-meta">
+              <span class="chip hl">AMIA 2024 大会报告</span><span class="chip">大模型微调</span>
+            </div>
+            <div class="card-links">
+              <a href="https://drive.google.com/file/d/1lyrBHZ1ZH-uVi6alaPZwsaEkl1XxWdT1/view" target="_blank" rel="noopener">摘要</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" style="--cc:var(--tomato-deep);--cc-soft:var(--tomato-soft)">
+          <div class="cover c-moodshaker">
+            <span class="emoji">🍸</span>
+          </div>
+          <div class="card-body">
+            <h3>MoodShaker</h3>
+            <p class="desc">一键定制鸡尾酒：心情输入、风味偏好、清醒度调节、过敏提示与音乐搭配，以一份诗意的配方呈现。上线首周即在宾大/沃顿社区送出 600+ 杯。</p>
+            <div class="card-meta">
+              <span class="chip hl">沃顿 Hack-AI-Thon 第二名</span><span class="chip">生成式 AI</span>
+            </div>
+            <div class="card-links">
+              <a href="https://www.youtube.com/watch?v=U5Ti2dYMHfg" target="_blank" rel="noopener">演示视频</a>
+              <a href="https://github.com/ChiaPatricia/MoodShaker" target="_blank" rel="noopener">代码</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" style="--cc:var(--yellow-deep);--cc-soft:var(--yellow-soft)">
+          <div class="cover c-retina">
+            <span class="emoji">👁️</span>
+          </div>
+          <div class="card-body">
+            <h3>糖尿病视网膜病变检测</h3>
+            <p class="desc">注意力增强的集成学习方法，在异构眼底图像来源间实现可转诊糖尿病视网膜病变的稳健检测，被第 55 届 ARVO 年会接收。</p>
+            <div class="card-meta">
+              <span class="chip hl">ARVO 2026</span><span class="chip">医学影像</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" style="--cc:var(--orange-deep);--cc-soft:var(--orange-soft)">
+          <div class="cover c-elderly">
+            <span class="emoji">🏡</span>
+          </div>
+          <div class="card-body">
+            <h3>ElderlyCo</h3>
+            <p class="desc">面向中国 7 万亿元养老产业的双市场增长战略：AI 驱动的金融规划与个性化照护，目标三年收支平衡、90%+ 入住率。</p>
+            <div class="card-meta">
+              <span class="chip hl">贝恩 Project Star 第一名</span><span class="chip">战略 × AI</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" style="--cc:var(--blue-deep);--cc-soft:var(--blue-soft)">
+          <div class="cover c-venezuela">
+            <span class="emoji">📻</span>
+          </div>
+          <div class="card-body">
+            <h3>委内瑞拉政治话语 NLP</h3>
+            <p class="desc">在 Google Cloud 上构建多源政治数据管线：微调 Whisper 处理西语政治演讲，分析 10 万+ 篇新闻以量化查韦斯时代的舆论情感变迁。宾大、哥伦比亚与伯克利联合项目。</p>
+            <div class="card-meta">
+              <span class="chip">语音转写</span><span class="chip">大规模 NLP</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>更多项目</h2>
+      </div>
+      <div class="card-grid reveal">
+
+        <article class="card" style="--cc:var(--green-deep);--cc-soft:var(--green-soft)">
+          <div class="cover c-tranquil">
+            <span class="emoji">🎙️</span>
+          </div>
+          <div class="card-body">
+            <h3>Tranquil Turing</h3>
+            <p class="desc">基于 MITI 框架的 AI 反馈系统，助力动机式访谈训练，帮助心理咨询师精进技艺。</p>
+            <div class="card-meta">
+              <span class="chip hl">MEXA 黑客松第一名</span><span class="chip">心理健康 × AI</span>
+            </div>
+            <div class="card-links">
+              <a href="https://github.com/ChiaPatricia/tranquil-turing" target="_blank" rel="noopener">代码</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" style="--cc:var(--green-deep);--cc-soft:var(--green-soft)">
+          <div class="cover c-green">
+            <span class="emoji">🌳</span>
+          </div>
+          <div class="card-body">
+            <h3>城市绿地公平性研究</h3>
+            <p class="desc">城市绿地可达性及其社区健康影响的地理空间分析，绿地数据挑战赛第一名。</p>
+            <div class="card-meta">
+              <span class="chip hl">数据挑战赛第一名</span><span class="chip">ArcGIS</span>
+            </div>
+            <div class="card-links">
+              <a href="https://github.com/ChiaPatricia/GSDC_Uncovering_Inequities_in_Green_Space" target="_blank" rel="noopener">代码</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" style="--cc:var(--blue-deep);--cc-soft:var(--blue-soft)">
+          <div class="cover c-aitech">
+            <span class="emoji">🔍</span>
+          </div>
+          <div class="card-body">
+            <h3>Penn AITech 研究门户</h3>
+            <p class="desc">通过文本挖掘构建阿尔茨海默病研究门户，为健康老龄化的技术识别提供知识库。</p>
+            <div class="card-meta">
+              <span class="chip">NLP</span><span class="chip">知识库</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" style="--cc:var(--blue-deep);--cc-soft:var(--blue-soft)">
+          <div class="cover c-ad">
+            <span class="emoji">🧩</span>
+          </div>
+          <div class="card-body">
+            <h3>阿尔茨海默病早期预测</h3>
+            <p class="desc">基于 MRI 数据构建分类器，在横断面与纵向队列中预测痴呆的发展。</p>
+            <div class="card-meta">
+              <span class="chip">机器学习</span><span class="chip">神经影像</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" style="--cc:var(--tomato-deep);--cc-soft:var(--tomato-soft)">
+          <div class="cover c-brainsuite">
+            <span class="emoji">🧲</span>
+          </div>
+          <div class="card-body">
+            <h3>BrainSuite 演示</h3>
+            <p class="desc">使用开源 BrainSuite 工具包对人脑 MRI 进行自动化处理，表面提取、配准与分析。</p>
+            <div class="card-meta">
+              <span class="chip">MRI / fMRI</span><span class="chip">深度学习</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" style="--cc:var(--blue-deep);--cc-soft:var(--blue-soft)">
+          <div class="cover c-aqi">
+            <span class="emoji">💨</span>
+          </div>
+          <div class="card-body">
+            <h3>印度空气质量指数预测</h3>
+            <p class="desc">对印度空气污染的大数据分析，宾大 CIS 545 大数据分析课程最佳可视化奖。</p>
+            <div class="card-meta">
+              <span class="chip hl">最佳可视化</span><span class="chip">大数据</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container inner">
+    <div class="social">
+      <a href="https://github.com/ChiaPatricia" target="_blank" rel="noopener" aria-label="GitHub" style="--hc:var(--ink)">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 2.87-.39c.97 0 1.95.13 2.87.39 2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.73.81 1.18 1.83 1.18 3.09 0 4.41-2.7 5.38-5.26 5.67.41.35.77 1.05.77 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+      </a>
+      <a href="https://scholar.google.com/citations?user=ZnNi2iMAAAAJ" target="_blank" rel="noopener" aria-label="Google Scholar" style="--hc:var(--blue)">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/jia-xu-0578b919a/" target="_blank" rel="noopener" aria-label="LinkedIn" style="--hc:var(--blue)">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+      </a>
+      <a href="https://twitter.com/JIAXU54788595" target="_blank" rel="noopener" aria-label="X (Twitter)" style="--hc:var(--ink)">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.66l-5.21-6.82-5.97 6.82H1.67l7.73-8.84L1.25 2.25h6.83l4.71 6.23 5.45-6.23zm-1.16 17.52h1.83L7.08 4.13H5.12l11.96 15.64z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/jiaxu306/" target="_blank" rel="noopener" aria-label="Instagram" style="--hc:var(--tomato)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.9" y="2.9" width="18.2" height="18.2" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="mailto:jiaxu@alumni.upenn.edu" aria-label="邮箱" style="--hc:var(--orange)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="4.5" width="19" height="15" rx="3"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></svg>
+      </a>
+    </div>
+    <p class="footer-note">© 2026 Jia Xu
+      <span class="tomato-egg" title=":)">
+        <svg viewBox="0 0 64 64"><circle cx="32" cy="38" r="21" fill="#E4573D"/><circle cx="24.5" cy="31.5" r="5.5" fill="#F0862F" opacity=".6"/><rect x="30.75" y="9.5" width="2.5" height="8" rx="1.25" fill="#22A06B"/><path d="M32 18 C 27 12.5, 19 13.5, 15.5 18.5 C 21.5 21, 28 20.5, 32 18 Z" fill="#22A06B"/><path d="M32 18 C 37 12.5, 45 13.5, 48.5 18.5 C 42.5 21, 36 20.5, 32 18 Z" fill="#22A06B"/></svg>
+      </span>
+    </p>
+  </div>
+</footer>
+
+<script src="/js/main.js"></script>
+</body>
+</html>
