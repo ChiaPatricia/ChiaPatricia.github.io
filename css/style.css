@@ -203,6 +203,12 @@ time, .num, .date { font-variant-numeric: tabular-nums; }
   transition: transform var(--fast) var(--ease);
 }
 .hero-flourish:hover .tail { transform: rotate(-14deg); }
+.hero-flourish .bird { cursor: pointer; pointer-events: bounding-box; }
+.hero-flourish .bird.sing .bird-bob { animation: chatter .11s linear 6; }
+@keyframes chatter {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50%      { transform: translateY(-2.6px) rotate(-2.5deg); }
+}
 
 .role { font-size: 14.5px; font-weight: 500; color: var(--muted); }
 .hero .tagline {
