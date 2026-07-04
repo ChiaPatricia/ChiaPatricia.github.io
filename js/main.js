@@ -1,4 +1,5 @@
-/* Jia Xu — site behaviour: reveal on scroll, mobile menu, language memory */
+/* Jia Xu — site behaviour: reveal on scroll, mobile menu, language memory,
+   and little doodle interactions (magpie chirps, tomato squishes) */
 (function () {
   document.documentElement.classList.add('js');
 
@@ -35,37 +36,62 @@
     });
   });
 
-  /* magpie easter egg: click the bird to hear its chatter */
-  var bird = document.querySelector('.hero-flourish .bird');
-  if (bird) {
-    bird.addEventListener('click', function () {
-      try {
-        var Ctx = window.AudioContext || window.webkitAudioContext;
-        var ctx = window.__magpieCtx || (window.__magpieCtx = new Ctx());
-        if (ctx.state === 'suspended') ctx.resume();
-        var t = ctx.currentTime + 0.02;
-        for (var i = 0; i < 6; i++) {              /* rapid "chak-chak-chak" */
-          var o = ctx.createOscillator();
-          var f = ctx.createBiquadFilter();
-          var g = ctx.createGain();
-          o.type = 'square';
-          o.frequency.setValueAtTime(1950 - i * 70, t);
-          o.frequency.exponentialRampToValueAtTime(1250, t + 0.055);
-          f.type = 'bandpass';
-          f.frequency.value = 1700;
-          f.Q.value = 2.2;
-          g.gain.setValueAtTime(0.0001, t);
-          g.gain.exponentialRampToValueAtTime(0.25, t + 0.012);
-          g.gain.exponentialRampToValueAtTime(0.0001, t + 0.075);
-          o.connect(f); f.connect(g); g.connect(ctx.destination);
-          o.start(t); o.stop(t + 0.09);
-          t += 0.098;
-        }
-      } catch (e) {}
-      bird.classList.remove('sing');
-      void bird.getBoundingClientRect();
-      bird.classList.add('sing');
-      setTimeout(function () { bird.classList.remove('sing'); }, 700);
+  /* magpie chatter, synthesised — no audio file needed */
+  function magpieChirp() {
+    try {
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      var ctx = window.__magpieCtx || (window.__magpieCtx = new Ctx());
+      if (ctx.state === 'suspended') ctx.resume();
+      var t = ctx.currentTime + 0.02;
+      for (var i = 0; i < 6; i++) {              /* rapid "chak-chak-chak" */
+        var o = ctx.createOscillator();
+        var f = ctx.createBiquadFilter();
+        var g = ctx.createGain();
+        o.type = 'square';
+        o.frequency.setValueAtTime(1950 - i * 70, t);
+        o.frequency.exponentialRampToValueAtTime(1250, t + 0.055);
+        f.type = 'bandpass';
+        f.frequency.value = 1700;
+        f.Q.value = 2.2;
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.25, t + 0.012);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.075);
+        o.connect(f); f.connect(g); g.connect(ctx.destination);
+        o.start(t); o.stop(t + 0.09);
+        t += 0.098;
+      }
+    } catch (e) {}
+  }
+
+  function pop(el) {
+    el.classList.remove('pop');
+    void el.getBoundingClientRect();
+    el.classList.add('pop');
+    setTimeout(function () { el.classList.remove('pop'); }, 600);
+  }
+
+  /* hero magpie: click to hear it */
+  var heroBird = document.querySelector('.hero-flourish .bird');
+  if (heroBird) {
+    heroBird.addEventListener('click', function () {
+      magpieChirp();
+      heroBird.classList.remove('sing');
+      void heroBird.getBoundingClientRect();
+      heroBird.classList.add('sing');
+      setTimeout(function () { heroBird.classList.remove('sing'); }, 700);
     });
   }
+
+  /* doodles: tomatoes squish, birds chirp */
+  document.querySelectorAll('.doodle').forEach(function (d) {
+    d.addEventListener('click', function () {
+      pop(d);
+      if (d.classList.contains('doodle-bird')) magpieChirp();
+    });
+  });
+
+  /* garden emoji hop on click */
+  document.querySelectorAll('.garden span').forEach(function (g) {
+    g.addEventListener('click', function () { pop(g); });
+  });
 })();
