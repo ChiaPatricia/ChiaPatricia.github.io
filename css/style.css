@@ -496,6 +496,38 @@ time, .num, .date { font-variant-numeric: tabular-nums; }
 .related-pubs a { color: var(--blue-deep); font-weight: 500; }
 .related-pubs a:hover { text-decoration: underline; }
 
+/* Contributions to Science — NIH biosketch style */
+.contrib-list { list-style: none; padding: 0; margin: 0; }
+.contrib { padding: 22px 0; border-bottom: 1px solid var(--line); }
+.contrib-list > .contrib:first-child { border-top: 1px solid var(--line); }
+.contrib-head { display: flex; align-items: center; gap: 12px; }
+.contrib .num {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--pill);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cc-soft, var(--blue-soft));
+  color: var(--cc, var(--blue-deep));
+  font-weight: 700;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.contrib h3 { font-size: 16.5px; letter-spacing: -0.01em; }
+.contrib-body { padding-left: 42px; }
+.contrib-desc { font-size: 14.5px; color: var(--muted); margin: 8px 0 12px; }
+.contrib-refs { margin: 0; padding-left: 20px; }
+.contrib-refs li { font-size: 12.8px; color: var(--muted); margin-top: 7px; line-height: 1.6; }
+.contrib-refs li::marker { color: var(--faint); }
+.contrib-refs .me { color: var(--ink); font-weight: 650; }
+.contrib-refs a { color: var(--blue-deep); }
+.contrib-refs a:hover { text-decoration: underline; }
+@media (max-width: 720px) {
+  .contrib-body { padding-left: 0; }
+}
+
 /* ============================================================
    Experience — clean hairline rows, no boxes
    ============================================================ */
