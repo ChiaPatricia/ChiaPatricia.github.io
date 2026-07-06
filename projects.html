@@ -43,17 +43,17 @@
   <section class="page-head">
     <div class="container rise">
       <h1>Projects</h1>
-      <p class="sub">Research and applied projects spanning large language models, medical imaging, and population health, organized by research direction.</p>
+      <p class="sub">Research and applied projects organized by research area, together with the topics of associated publications.</p>
     </div>
   </section>
 
-  <!-- 1. LLMs for Mental Health -->
+  <!-- 1. NLP & LLMs -->
   <section class="section">
     <div class="container">
       <div class="section-head reveal">
-        <h2>🧠 LLMs for Mental Health</h2>
+        <h2>💬 Natural Language Processing &amp; Large Language Models</h2>
       </div>
-      <p class="section-sub reveal">Developing benchmark resources and fine-tuned language models for accessible, trustworthy mental-health support, evaluated by human experts and automated judges.</p>
+      <p class="section-sub reveal">Benchmark construction, instruction fine-tuning, and rigorous evaluation of large language models, with a focus on conversational mental-health support.</p>
       <div class="card-grid reveal">
 
         <article class="card" style="--cc:var(--green-deep);--cc-soft:var(--green-soft)">
@@ -105,18 +105,35 @@
           </div>
         </article>
 
+        <article class="card" style="--cc:var(--tomato-deep);--cc-soft:var(--tomato-soft)">
+          <div class="cover c-moodshaker">
+            <span class="emoji">🍸</span>
+          </div>
+          <div class="card-body">
+            <h3>MoodShaker</h3>
+            <p class="desc">An applied generative-AI system that turns mood, flavor preferences, soberness level, and allergy constraints into personalized cocktail recipes with music pairing. 600+ recipes served in its first week at Penn.</p>
+            <div class="card-meta">
+              <span class="chip hl">2nd · Wharton Hack-AI-Thon</span><span class="chip">Applied LLM System</span>
+            </div>
+            <div class="card-links">
+              <a href="https://www.youtube.com/watch?v=U5Ti2dYMHfg" target="_blank" rel="noopener">Demo</a>
+              <a href="https://github.com/ChiaPatricia/MoodShaker" target="_blank" rel="noopener">Code</a>
+            </div>
+          </div>
+        </article>
+
       </div>
-      <p class="related-pubs reveal">📄 Related publications: <a href="https://doi.org/10.1145/3711896.3737393" target="_blank" rel="noopener">KDD ’25</a> · <a href="https://drive.google.com/file/d/1lyrBHZ1ZH-uVi6alaPZwsaEkl1XxWdT1/view" target="_blank" rel="noopener">AMIA 2024</a></p>
+      <p class="related-pubs reveal">📄 Research topics: benchmarking conversational mental-health assistance (<a href="https://doi.org/10.1145/3711896.3737393" target="_blank" rel="noopener">KDD ’25</a>) · compassionate mental-health support with fine-tuned LLMs (<a href="https://drive.google.com/file/d/1lyrBHZ1ZH-uVi6alaPZwsaEkl1XxWdT1/view" target="_blank" rel="noopener">AMIA 2024</a>) · fine-tuned LLMs for dementia talk therapy using GPT self-generated data (<a href="https://alz-journals.onlinelibrary.wiley.com/doi/full/10.1002/alz.093496" target="_blank" rel="noopener">AAIC 2024</a>)</p>
     </div>
   </section>
 
-  <!-- 2. Medical & Neuro Imaging -->
+  <!-- 2. Medical Imaging & Computer Vision -->
   <section class="section">
     <div class="container">
       <div class="section-head reveal">
-        <h2>👁️ Medical &amp; Neuro Imaging</h2>
+        <h2>🩺 Medical Imaging &amp; Computer Vision</h2>
       </div>
-      <p class="section-sub reveal">Machine learning methods for robust disease detection across heterogeneous medical and neuroimaging data.</p>
+      <p class="section-sub reveal">Deep learning and ensemble methods for disease detection and image analysis across heterogeneous clinical imaging sources.</p>
       <div class="card-grid reveal">
 
         <article class="card" style="--cc:var(--yellow-deep);--cc-soft:var(--yellow-soft)">
@@ -159,17 +176,28 @@
         </article>
 
       </div>
-      <p class="related-pubs reveal">📄 Related publications: ARVO 2026 (The 55th ARVO Annual Meeting, Denver)</p>
+      <p class="related-pubs reveal">📄 Research topics: robust referable diabetic retinopathy detection via attention-enhanced ensemble learning (ARVO 2026, The 55th ARVO Annual Meeting)</p>
     </div>
   </section>
 
-  <!-- 3. Aging & Precision Health -->
+  <!-- 3. Fair & Trustworthy ML -->
   <section class="section">
     <div class="container">
       <div class="section-head reveal">
-        <h2>🌿 Aging &amp; Precision Health</h2>
+        <h2>⚖️ Fair &amp; Trustworthy Machine Learning</h2>
       </div>
-      <p class="section-sub reveal">Quantifying biological aging and its determinants, and building informatics tools that support healthy longevity.</p>
+      <p class="section-sub reveal">Methodological work on fairness-aware learning and the trustworthy evaluation of models deployed in high-stakes clinical settings.</p>
+      <p class="related-pubs reveal">📄 Research topics: fair canonical correlation analysis with theoretical guarantees for multivariate representation learning (<a href="https://neurips.cc/virtual/2023/poster/71423" target="_blank" rel="noopener">NeurIPS 2023</a>, <a href="https://github.com/PennShenLab/Fair_CCA" target="_blank" rel="noopener">code</a>) · human-expert and LLM-judge evaluation protocols for clinical language models (<a href="https://doi.org/10.1145/3711896.3737393" target="_blank" rel="noopener">KDD ’25</a>)</p>
+    </div>
+  </section>
+
+  <!-- 4. Computational Aging & Population Health -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>🌱 Computational Aging &amp; Population Health</h2>
+      </div>
+      <p class="section-sub reveal">Quantifying biological aging and neurodegeneration with causal inference, mediation analysis, and machine learning on population cohorts, and building informatics tools for healthy longevity.</p>
       <div class="card-grid reveal">
 
         <article class="card" style="--cc:var(--blue-deep);--cc-soft:var(--blue-soft)">
@@ -199,17 +227,17 @@
         </article>
 
       </div>
-      <p class="related-pubs reveal">📄 Related publications: <a href="https://doi.org/10.1016/j.ijmedinf.2024.105661" target="_blank" rel="noopener">IJMI 2025</a> · <a href="https://www.tandfonline.com/doi/abs/10.1080/17538157.2024.2400247" target="_blank" rel="noopener">IHSC 2024</a> · <a href="https://ieeexplore.ieee.org/abstract/document/10386026" target="_blank" rel="noopener">IEEE BIBM 2023</a> · AMIA 2023</p>
+      <p class="related-pubs reveal">📄 Research topics: mediation analysis and structural equation modeling of phenotypic age (<a href="https://doi.org/10.1016/j.ijmedinf.2024.105661" target="_blank" rel="noopener">IJMI 2025</a>) · biological markers and sociodemographic determinants of the phenotypic vs chronological age gap (<a href="https://www.tandfonline.com/doi/abs/10.1080/17538157.2024.2400247" target="_blank" rel="noopener">IHSC 2024</a>) · causal effects of environmental exposures on aging (<a href="https://ieeexplore.ieee.org/abstract/document/10386026" target="_blank" rel="noopener">IEEE BIBM 2023</a>) · determinants of age-gap prediction in the NHANES cohort (AMIA 2023) · clustering Alzheimer’s disease subtypes via similarity learning and graph diffusion (<a href="https://arxiv.org/abs/2410.03937" target="_blank" rel="noopener">ICIBM 2023</a>)</p>
     </div>
   </section>
 
-  <!-- 4. Data Science for Public Good -->
+  <!-- 5. Spatial & Social Data Science -->
   <section class="section">
     <div class="container">
       <div class="section-head reveal">
-        <h2>🌍 Data Science for Public Good</h2>
+        <h2>🌍 Spatial &amp; Social Data Science</h2>
       </div>
-      <p class="section-sub reveal">Applied data science addressing health equity, environmental exposure, and public discourse.</p>
+      <p class="section-sub reveal">Geospatial and computational social-science methods applied to health equity, environmental exposure, and public discourse.</p>
       <div class="card-grid reveal">
 
         <article class="card" style="--cc:var(--green-deep);--cc-soft:var(--green-soft)">
@@ -252,36 +280,6 @@
             <p class="desc">Big-data analysis of air pollution across India, winner of the Best Visualization award in Penn’s CIS 545 Big Data Analytics.</p>
             <div class="card-meta">
               <span class="chip hl">Best Visualization</span><span class="chip">Big Data</span>
-            </div>
-          </div>
-        </article>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- 5. Generative AI Playground -->
-  <section class="section">
-    <div class="container">
-      <div class="section-head reveal">
-        <h2>✨ Generative AI Playground</h2>
-      </div>
-      <p class="section-sub reveal">Exploratory applications of generative AI beyond the clinic.</p>
-      <div class="card-grid reveal">
-
-        <article class="card" style="--cc:var(--tomato-deep);--cc-soft:var(--tomato-soft)">
-          <div class="cover c-moodshaker">
-            <span class="emoji">🍸</span>
-          </div>
-          <div class="card-body">
-            <h3>MoodShaker</h3>
-            <p class="desc">Custom cocktails at a click: mood input, flavor profiles, soberness adjustment, allergy notes, and music pairing, served as a poetic recipe. 600+ cocktails delivered in the first week at Penn.</p>
-            <div class="card-meta">
-              <span class="chip hl">2nd · Wharton Hack-AI-Thon</span><span class="chip">Generative AI</span>
-            </div>
-            <div class="card-links">
-              <a href="https://www.youtube.com/watch?v=U5Ti2dYMHfg" target="_blank" rel="noopener">Demo</a>
-              <a href="https://github.com/ChiaPatricia/MoodShaker" target="_blank" rel="noopener">Code</a>
             </div>
           </div>
         </article>
