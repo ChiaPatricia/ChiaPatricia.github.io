@@ -494,6 +494,8 @@ time, .num, .date { font-variant-numeric: tabular-nums; }
 .cover.c-ad         { background: linear-gradient(120deg, #91325F 0%, #D4649B 55%, #F6C8DE 100%); }
 .cover.c-brainsuite { background: linear-gradient(120deg, #A62639 0%, #E4573D 55%, #F8C7B8 100%); }
 .cover.c-aqi        { background: linear-gradient(120deg, #0F6E8C 0%, #38B6D8 55%, #C8EEF6 100%); }
+.cover.c-dementia   { background: linear-gradient(120deg, #4C6FD0 0%, #8AA8ED 55%, #CBD9F7 100%); }
+.cover.c-faircca    { background: linear-gradient(120deg, #B0472C 0%, #E0835E 55%, #F4CBB9 100%); }
 
 .card-body { display: flex; flex-direction: column; gap: 8px; padding: 16px; flex: 1; }
 .card-body h3 { font-size: 16px; }
