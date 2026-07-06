@@ -3,8 +3,12 @@
   "configurations": [
     {
       "name": "site",
-      "runtimeExecutable": "sh",
-      "runtimeArgs": ["-c", "python3 -m http.server ${PORT}"],
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-I",
+        "-c",
+        "import os, socketserver; from http.server import SimpleHTTPRequestHandler as S; D = '/private/tmp/jiaxu-preview'; H = type('H', (S,), {'__init__': (lambda self, *a, **k: S.__init__(self, *a, directory=D, **k))}); socketserver.ThreadingTCPServer.allow_reuse_address = True; socketserver.ThreadingTCPServer(('', int(os.environ.get('PORT', '4173'))), H).serve_forever()"
+      ],
       "autoPort": true
     }
   ]

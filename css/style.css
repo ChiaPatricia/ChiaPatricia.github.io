@@ -491,6 +491,11 @@ time, .num, .date { font-variant-numeric: tabular-nums; }
 .card-links a { font-size: 13px; font-weight: 600; color: var(--blue-deep); }
 .card-links a:hover { text-decoration: underline; }
 
+/* related publications footnote under a project category */
+.related-pubs { font-size: 13px; color: var(--muted); margin-top: 16px; }
+.related-pubs a { color: var(--blue-deep); font-weight: 500; }
+.related-pubs a:hover { text-decoration: underline; }
+
 /* ============================================================
    Experience — clean hairline rows, no boxes
    ============================================================ */
