@@ -288,6 +288,28 @@ time, .num, .date { font-variant-numeric: tabular-nums; }
 .section-head .more:hover { text-decoration: underline; }
 .section-sub { font-size: 14.5px; color: var(--muted); margin-top: -8px; margin-bottom: 18px; max-width: 52em; }
 
+/* numbered academic area heading (Projects) */
+.area-head { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
+.area-num {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--pill);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ac-soft, var(--blue-soft));
+  color: var(--ac, var(--blue-deep));
+  font-weight: 700;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.area-head h2 { font-size: 21px; letter-spacing: -0.01em; }
+.area-head + .section-sub { margin-top: 2px; padding-left: 48px; }
+@media (max-width: 720px) {
+  .area-head + .section-sub { padding-left: 0; }
+}
+
 /* inline link */
 .t-link { color: var(--blue-deep); font-weight: 500; }
 .t-link:hover { text-decoration: underline; }
