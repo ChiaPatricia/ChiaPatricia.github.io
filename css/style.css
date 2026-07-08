@@ -725,6 +725,35 @@ time, .num, .date { font-variant-numeric: tabular-nums; }
 .food p { font-size: 13px; line-height: 1.7; color: var(--muted); }
 
 /* ============================================================
+   Contact / collaboration call-to-action
+   ============================================================ */
+.contact-card {
+  text-align: center;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: radial-gradient(130% 150% at 50% 0%, var(--tomato-soft) 0%, #fff 62%);
+  padding: 48px 32px;
+}
+.contact-card h2 { font-size: 26px; margin-bottom: 10px; }
+.contact-card p { font-size: 15px; color: var(--muted); max-width: 42em; margin: 0 auto 24px; }
+.contact-actions { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--tomato);
+  color: #fff;
+  font-weight: 600;
+  font-size: 14.5px;
+  padding: 12px 26px;
+  border-radius: var(--pill);
+  transition: transform var(--fast) var(--ease), box-shadow var(--fast) var(--ease), background var(--fast) var(--ease);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); background: var(--tomato-deep); }
+.contact-card .social { justify-content: center; }
+.contact-email { font-size: 13px; color: var(--faint); }
+
+/* ============================================================
    Footer
    ============================================================ */
 .site-footer { border-top: 1px solid var(--line); margin-top: 40px; background: var(--bg-soft); }
