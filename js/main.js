@@ -315,7 +315,7 @@
     var pubs = Array.prototype.slice.call(document.querySelectorAll('.pub'));
     if (!pubs.length) return;
     var LABELS = {
-      llm:      { en: 'LLMs & Mental Health', zh: '大模型与心理健康', c: 'var(--green-deep)' },
+      llm:      { en: 'LLMs', zh: '大语言模型', c: 'var(--green-deep)' },
       imaging:  { en: 'Medical Imaging',      zh: '医学影像',         c: 'var(--blue-deep)' },
       fairness: { en: 'Fairness',             zh: '公平性',           c: 'var(--tomato-deep)' },
       aging:    { en: 'Aging & Population Health', zh: '衰老与人群健康', c: 'var(--orange-deep)' }
