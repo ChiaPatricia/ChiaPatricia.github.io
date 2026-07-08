@@ -587,14 +587,38 @@ time, .num, .date { font-variant-numeric: tabular-nums; }
 .xp .body li::marker { color: var(--xc, var(--blue)); }
 
 /* skills — plain two-column groups */
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 4px 48px;
+.skills-grid { display: block; }
+.skill { padding: 14px 0; border-bottom: 1px solid var(--line); }
+.skills-grid .skill:first-child { border-top: 1px solid var(--line); }
+.skill h3 {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--sc, var(--blue-deep));
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
-.skill { padding: 12px 0; border-bottom: 1px solid var(--line); }
-.skill h3 { font-size: 14px; font-weight: 650; color: var(--sc, var(--blue-deep)); margin-bottom: 3px; }
-.skill p { font-size: 13.5px; color: var(--muted); }
+.skill h3::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: var(--pill);
+  background: var(--sc, var(--blue-deep));
+  flex-shrink: 0;
+}
+.skill-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+.skill-tags span {
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1;
+  padding: 6px 12px;
+  border-radius: var(--pill);
+  background: var(--sc-soft, var(--blue-soft));
+  color: var(--sc, var(--blue-deep));
+}
 
 /* ============================================================
    Awards — generous single-column rows, medal emoji, big year
