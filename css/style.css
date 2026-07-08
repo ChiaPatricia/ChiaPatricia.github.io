@@ -614,8 +614,9 @@ time, .num, .date { font-variant-numeric: tabular-nums; }
   line-height: 1;
   padding: 6px 12px;
   border-radius: var(--pill);
-  background: var(--sc-soft, var(--blue-soft));
-  color: var(--sc, var(--blue-deep));
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink);
 }
 
 /* ============================================================
