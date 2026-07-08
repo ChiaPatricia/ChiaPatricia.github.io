@@ -559,7 +559,7 @@ time, .num, .date { font-variant-numeric: tabular-nums; }
 .xp-block > h2 { font-size: 22px; margin-bottom: 8px; }
 .xp {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 46px 1fr auto;
   gap: 4px 16px;
   padding: 18px 0;
   border-bottom: 1px solid var(--line);
@@ -567,14 +567,15 @@ time, .num, .date { font-variant-numeric: tabular-nums; }
 .xp-logo {
   grid-column: 1;
   grid-row: 1;
-  width: 42px;
-  height: 42px;
-  border-radius: 10px;
+  width: 46px;
+  height: 46px;
+  border-radius: 11px;
   object-fit: contain;
   background: #fff;
   border: 1px solid var(--line);
-  padding: 5px;
+  padding: 6px;
   align-self: center;
+  display: block;
 }
 .xp-main { grid-column: 2; grid-row: 1; min-width: 0; }
 .xp h3 { font-size: 16px; }
@@ -924,7 +925,7 @@ html[lang^="zh"] .news-card p, html[lang^="zh"] .news-list p { line-height: 1.8;
   .food-grid { grid-template-columns: 1fr; }
   .garden { gap: 20px; font-size: 17px; }
   .award-grid { grid-template-columns: 1fr; }
-  .xp { grid-template-columns: auto 1fr; }
+  .xp { grid-template-columns: 46px 1fr; }
   .xp .date { grid-column: 2; grid-row: 2; padding-top: 0; }
   .xp .body { grid-column: 1 / -1; }
   .section { padding: 40px 0; }
