@@ -23,12 +23,13 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install --quiet google-api-python-client google-auth Pillow
+        run: pip install --quiet gdown Pillow
 
       - name: Sync photos from Drive
         env:
-          GDRIVE_SA_KEY: ${{ secrets.GDRIVE_SA_KEY }}
-          GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
+          # optional: set repo variable GDRIVE_FOLDER_ID to change the folder
+          # without editing scripts/sync_drive_photos.py
+          GDRIVE_FOLDER_ID: ${{ vars.GDRIVE_FOLDER_ID }}
         run: python scripts/sync_drive_photos.py
 
       - name: Rebuild thumbnails and manifest

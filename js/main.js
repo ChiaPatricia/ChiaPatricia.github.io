@@ -319,6 +319,17 @@
       edges();
     }
 
+    /* choose a row count that stays balanced for few or many photos */
+    function layout(count) {
+      var w = window.innerWidth;
+      var base = w <= 720 ? 2 : 3;
+      var rowH = w <= 720 ? 150 : (w <= 1024 ? 185 : 220);
+      var rows = Math.min(base, Math.max(count, 1));
+      while (rows > 1 && Math.ceil(count / rows) < rows) rows--;
+      grid.style.setProperty('--rows', rows);
+      grid.style.setProperty('--row-h', rowH + 'px');
+    }
+
     var alt = grid.getAttribute('aria-label') || 'Photo';
     fetch('/assets/photo/gallery.json?cb=' + Date.now())
       .then(function (r) { return r.json(); })
@@ -343,6 +354,8 @@
         grid.appendChild(frag);
         var imgs = Array.prototype.slice.call(grid.querySelectorAll('img'));
         imgs.forEach(function (im) { if (im.complete) im.classList.add('loaded'); });
+        layout(imgs.length);
+        window.addEventListener('resize', function () { layout(imgs.length); });
         initLightbox(imgs);
         initScroll();
       })
