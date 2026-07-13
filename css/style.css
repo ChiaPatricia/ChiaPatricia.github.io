@@ -719,19 +719,85 @@ time, .num, .date { font-variant-numeric: tabular-nums; }
 .page-head .garden { justify-content: flex-start; gap: 18px; padding: 12px 0 0; }
 
 /* ============================================================
-   Hobbies — photo masonry & food guide
+   Hobbies — photography filmstrip & food guide
    ============================================================ */
-.photo-grid { columns: 3; column-gap: 12px; }
-.photo-grid img {
-  width: 100%;
-  height: auto;                 /* keep true aspect ratio */
-  border-radius: 12px;
-  margin-bottom: 12px;
-  break-inside: avoid;
-  border: 1px solid var(--line);
-  transition: transform var(--fast) var(--ease), box-shadow var(--fast) var(--ease);
+/* multi-row horizontal-scroll gallery; rows/height driven by CSS vars */
+.gallery-wrap { position: relative; }
+.gallery {
+  --rows: 3;
+  --row-h: 220px;
+  --gap: 12px;
+  box-sizing: content-box;
+  display: flex;
+  flex-flow: column wrap;
+  align-content: flex-start;
+  gap: var(--gap);
+  height: calc(var(--rows) * var(--row-h) + (var(--rows) - 1) * var(--gap));
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  padding-bottom: 12px;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
 }
-.photo-grid img:hover { transform: scale(1.015); box-shadow: var(--shadow-2); }
+.gallery.dragging { cursor: grabbing; scroll-snap-type: none; }
+.gallery.dragging img { pointer-events: none; }
+.gallery img {
+  height: var(--row-h);
+  width: auto;
+  display: block;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  background: #f3f3f5;
+  scroll-snap-align: start;
+  cursor: zoom-in;
+  flex: 0 0 auto;
+  opacity: 0;
+  transition: opacity .5s ease, transform var(--fast) var(--ease), box-shadow var(--fast) var(--ease);
+}
+.gallery img.loaded { opacity: 1; }
+.gallery img:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); }
+/* soft fade at the right edge hinting more photos */
+.gallery-wrap::after {
+  content: "";
+  position: absolute;
+  top: 0; right: 0; bottom: 12px;
+  width: 56px;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(255,255,255,0), #fff);
+  opacity: 1;
+  transition: opacity .25s ease;
+}
+.gallery-wrap.at-end::after { opacity: 0; }
+/* scroll arrows (desktop) */
+.gallery-nav {
+  position: absolute;
+  top: calc(50% - 20px);
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: var(--pill);
+  background: #fff;
+  color: var(--ink);
+  box-shadow: var(--shadow-1);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity .2s ease, background .2s ease, box-shadow .2s ease, transform .2s ease;
+  z-index: 3;
+}
+.gallery-wrap:hover .gallery-nav { opacity: 1; }
+.gallery-nav:hover { box-shadow: var(--shadow-2); background: var(--ink); color: #fff; border-color: transparent; }
+.gallery-nav[disabled] { opacity: 0 !important; pointer-events: none; }
+.gallery-nav.prev { left: 8px; }
+.gallery-nav.next { right: 8px; }
+.gallery-nav svg { width: 18px; height: 18px; }
+.gallery-empty { color: var(--faint); font-size: 14px; padding: 24px 0; }
+@media (hover: none) {
+  .gallery-nav { display: none; }
+  .gallery-wrap::after { display: none; }
+}
 
 .food-grid {
   display: grid;
@@ -1058,7 +1124,6 @@ html[lang^="zh"] .news-card p, html[lang^="zh"] .news-list p { line-height: 1.8;
 .lb-prev { left: 20px; top: 50%; transform: translateY(-50%); }
 .lb-next { right: 20px; top: 50%; transform: translateY(-50%); }
 .lb-close { top: 20px; right: 20px; width: 40px; height: 40px; }
-.photo-grid img { cursor: zoom-in; }
 
 @media (max-width: 720px) {
   .to-top { right: 16px; bottom: 16px; }
@@ -1079,6 +1144,7 @@ html[lang^="zh"] .news-card p, html[lang^="zh"] .news-list p { line-height: 1.8;
   .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .quick-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .food-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gallery { --row-h: 185px; }
 }
 
 @media (max-width: 720px) {
@@ -1116,7 +1182,7 @@ html[lang^="zh"] .news-card p, html[lang^="zh"] .news-list p { line-height: 1.8;
   .news-list li { grid-template-columns: 72px 1fr; }
   .card-grid { grid-template-columns: 1fr; }
   .quick-grid { grid-template-columns: 1fr 1fr; }
-  .photo-grid { columns: 2; column-gap: 12px; }
+  .gallery { --rows: 2; --row-h: 150px; }
   .food-grid { grid-template-columns: 1fr; }
   .garden { gap: 20px; font-size: 17px; }
   .award-grid { grid-template-columns: 1fr; }

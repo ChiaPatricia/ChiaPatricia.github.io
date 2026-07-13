@@ -1,0 +1,47 @@
+name: Sync photos from Google Drive
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: '0 */6 * * *'   # every 6 hours
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-photos
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install --quiet google-api-python-client google-auth Pillow
+
+      - name: Sync photos from Drive
+        env:
+          GDRIVE_SA_KEY: ${{ secrets.GDRIVE_SA_KEY }}
+          GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
+        run: python scripts/sync_drive_photos.py
+
+      - name: Rebuild thumbnails and manifest
+        run: python scripts/build_gallery_manifest.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/photo
+          if git diff --cached --quiet; then
+            echo "No photo changes."
+          else
+            git commit -m "update"
+            git push
+          fi

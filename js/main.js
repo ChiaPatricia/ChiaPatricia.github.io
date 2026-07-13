@@ -237,38 +237,118 @@
     });
   })();
 
-  /* ---- photo lightbox ---- */
+  /* ---- photography gallery (manifest-driven) + lightbox ---- */
   (function () {
-    var imgs = Array.prototype.slice.call(document.querySelectorAll('.photo-grid img'));
-    if (!imgs.length) return;
-    var lb = document.createElement('div');
-    lb.className = 'lightbox';
-    lb.innerHTML =
-      '<button class="lb-btn lb-close" aria-label="' + (ZH ? '关闭' : 'Close') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>' +
-      '<button class="lb-btn lb-prev" aria-label="' + (ZH ? '上一张' : 'Previous') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>' +
-      '<button class="lb-btn lb-next" aria-label="' + (ZH ? '下一张' : 'Next') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>' +
-      '<img alt="">';
-    document.body.appendChild(lb);
-    var big = lb.querySelector('img');
-    var idx = 0;
-    function show(i) {
-      idx = (i + imgs.length) % imgs.length;
-      big.src = imgs[idx].currentSrc || imgs[idx].src;
-      big.alt = imgs[idx].alt || '';
+    var grid = document.querySelector('[data-gallery]');
+    if (!grid) return;
+    var wrap = grid.closest('.gallery-wrap');
+
+    function initLightbox(imgs) {
+      if (!imgs.length) return;
+      var lb = document.createElement('div');
+      lb.className = 'lightbox';
+      lb.innerHTML =
+        '<button class="lb-btn lb-close" aria-label="' + (ZH ? '关闭' : 'Close') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>' +
+        '<button class="lb-btn lb-prev" aria-label="' + (ZH ? '上一张' : 'Previous') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>' +
+        '<button class="lb-btn lb-next" aria-label="' + (ZH ? '下一张' : 'Next') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>' +
+        '<img alt="">';
+      document.body.appendChild(lb);
+      var big = lb.querySelector('img');
+      var idx = 0;
+      function show(i) {
+        idx = (i + imgs.length) % imgs.length;
+        big.src = imgs[idx].dataset.full || imgs[idx].src;
+        big.alt = imgs[idx].alt || '';
+      }
+      function open(i) { show(i); lb.classList.add('open'); document.body.style.overflow = 'hidden'; }
+      function close() { lb.classList.remove('open'); document.body.style.overflow = ''; }
+      imgs.forEach(function (im, i) { im.addEventListener('click', function () { open(i); }); });
+      lb.querySelector('.lb-close').addEventListener('click', close);
+      lb.querySelector('.lb-prev').addEventListener('click', function (e) { e.stopPropagation(); show(idx - 1); });
+      lb.querySelector('.lb-next').addEventListener('click', function (e) { e.stopPropagation(); show(idx + 1); });
+      lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
+      document.addEventListener('keydown', function (e) {
+        if (!lb.classList.contains('open')) return;
+        if (e.key === 'Escape') close();
+        else if (e.key === 'ArrowLeft') show(idx - 1);
+        else if (e.key === 'ArrowRight') show(idx + 1);
+      });
     }
-    function open(i) { show(i); lb.classList.add('open'); document.body.style.overflow = 'hidden'; }
-    function close() { lb.classList.remove('open'); document.body.style.overflow = ''; }
-    imgs.forEach(function (im, i) { im.addEventListener('click', function () { open(i); }); });
-    lb.querySelector('.lb-close').addEventListener('click', close);
-    lb.querySelector('.lb-prev').addEventListener('click', function (e) { e.stopPropagation(); show(idx - 1); });
-    lb.querySelector('.lb-next').addEventListener('click', function (e) { e.stopPropagation(); show(idx + 1); });
-    lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
-    document.addEventListener('keydown', function (e) {
-      if (!lb.classList.contains('open')) return;
-      if (e.key === 'Escape') close();
-      else if (e.key === 'ArrowLeft') show(idx - 1);
-      else if (e.key === 'ArrowRight') show(idx + 1);
-    });
+
+    function initScroll() {
+      /* drag to scroll (desktop); touch swipe is native */
+      var down = false, startX = 0, startLeft = 0, moved = false;
+      grid.addEventListener('pointerdown', function (e) {
+        if (e.pointerType === 'touch') return;
+        down = true; moved = false; startX = e.clientX; startLeft = grid.scrollLeft;
+        grid.classList.add('dragging');
+      });
+      window.addEventListener('pointermove', function (e) {
+        if (!down) return;
+        var dx = e.clientX - startX;
+        if (Math.abs(dx) > 3) moved = true;
+        grid.scrollLeft = startLeft - dx;
+      });
+      window.addEventListener('pointerup', function () { down = false; grid.classList.remove('dragging'); });
+      grid.addEventListener('click', function (e) {
+        if (moved) { e.preventDefault(); e.stopPropagation(); }
+      }, true);
+
+      if (!wrap) return;
+      var prev = document.createElement('button');
+      prev.type = 'button'; prev.className = 'gallery-nav prev';
+      prev.setAttribute('aria-label', ZH ? '向左' : 'Scroll left');
+      prev.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>';
+      var next = document.createElement('button');
+      next.type = 'button'; next.className = 'gallery-nav next';
+      next.setAttribute('aria-label', ZH ? '向右' : 'Scroll right');
+      next.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
+      wrap.appendChild(prev); wrap.appendChild(next);
+      function page(dir) { grid.scrollBy({ left: dir * grid.clientWidth * 0.8, behavior: 'smooth' }); }
+      prev.addEventListener('click', function () { page(-1); });
+      next.addEventListener('click', function () { page(1); });
+      function edges() {
+        var atStart = grid.scrollLeft <= 2;
+        var atEnd = grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - 2;
+        prev.disabled = atStart;
+        next.disabled = atEnd;
+        wrap.classList.toggle('at-end', atEnd);
+      }
+      grid.addEventListener('scroll', function () { requestAnimationFrame(edges); }, { passive: true });
+      window.addEventListener('resize', edges);
+      edges();
+    }
+
+    var alt = grid.getAttribute('aria-label') || 'Photo';
+    fetch('/assets/photo/gallery.json?cb=' + Date.now())
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        var photos = (data && data.photos) || [];
+        if (!photos.length) {
+          grid.innerHTML = '<p class="gallery-empty">' + (ZH ? '照片即将上线' : 'Photos coming soon.') + '</p>';
+          return;
+        }
+        var frag = document.createDocumentFragment();
+        photos.forEach(function (p) {
+          var im = document.createElement('img');
+          im.src = p.thumb || p.src;
+          im.dataset.full = p.src;
+          im.alt = alt;
+          im.loading = 'lazy';
+          if (p.w && p.h) im.style.aspectRatio = p.w + ' / ' + p.h;
+          im.addEventListener('load', function () { im.classList.add('loaded'); });
+          frag.appendChild(im);
+        });
+        grid.innerHTML = '';
+        grid.appendChild(frag);
+        var imgs = Array.prototype.slice.call(grid.querySelectorAll('img'));
+        imgs.forEach(function (im) { if (im.complete) im.classList.add('loaded'); });
+        initLightbox(imgs);
+        initScroll();
+      })
+      .catch(function () {
+        grid.innerHTML = '<p class="gallery-empty">' + (ZH ? '照片加载失败' : 'Could not load photos.') + '</p>';
+      });
   })();
 
   /* ---- projects: filter by research area ---- */
