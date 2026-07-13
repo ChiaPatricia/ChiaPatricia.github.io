@@ -13,7 +13,6 @@ Ordering: natural sort by filename, so photos can be ordered by naming them
 import json
 import os
 import re
-from datetime import datetime, timezone
 
 from PIL import Image, ImageOps
 
@@ -54,9 +53,12 @@ def build():
 
         thumb_name = os.path.splitext(name)[0] + ".jpg"
         thumb_path = os.path.join(thumb_dir, thumb_name)
-        thumb = im.copy()
-        thumb.thumbnail((MAX_THUMB, MAX_THUMB))
-        thumb.convert("RGB").save(thumb_path, "JPEG", quality=THUMB_QUALITY, optimize=True)
+        # only build a thumbnail if it does not already exist, so re-runs are
+        # byte-stable across machines (no needless commits from the sync Action)
+        if not os.path.exists(thumb_path):
+            thumb = im.copy()
+            thumb.thumbnail((MAX_THUMB, MAX_THUMB))
+            thumb.convert("RGB").save(thumb_path, "JPEG", quality=THUMB_QUALITY, optimize=True)
         kept_thumbs.add(thumb_name)
 
         photos.append({
@@ -72,7 +74,6 @@ def build():
             os.remove(os.path.join(thumb_dir, t))
 
     data = {
-        "generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "count": len(photos),
         "photos": photos,
     }
