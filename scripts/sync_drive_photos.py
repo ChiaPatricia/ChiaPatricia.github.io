@@ -1,18 +1,21 @@
 #!/usr/bin/env python3
-"""Mirror a public Google Drive folder of photos into assets/photo.
+"""Add photos from a public Google Drive folder into assets/photo, alongside
+any permanent photos committed directly to the repo.
 
-Uses gdown, so it needs no credentials or API keys: the Drive folder just has
+Uses gdown, so no credentials or API keys are needed: the Drive folder just has
 to be shared "anyone with the link can view". The folder id comes from the
 GDRIVE_FOLDER_ID environment variable, defaulting to the site's folder.
 
-Downloads every image, then removes local images no longer in the folder, so
-the gallery mirrors the Drive folder. Thumbnails and gallery.json are produced
-afterwards by build_gallery_manifest.py. Order = filename order (name photos
-01.jpg, 02.jpg, ... in Drive to control it).
+Which files came from Drive is tracked in assets/photo/.drive-managed.json, so:
+  * photos committed straight to the repo (e.g. p1.jpg) are never touched, and
+  * Drive photos removed from the folder are cleaned up on the next run.
 
-Note: gdown's folder download handles up to ~50 files; for more, split into
-folders or switch to an API-key/service-account approach.
+Thumbnails and gallery.json are produced afterwards by build_gallery_manifest.py.
+Order photos by naming them 01.jpg, 02.jpg, ... ; the manifest sorts by filename.
+
+Note: gdown's folder download handles up to ~50 files.
 """
+import json
 import os
 import re
 import shutil
@@ -21,9 +24,9 @@ import sys
 import tempfile
 
 PHOTO_DIR = "assets/photo"
+STATE = os.path.join(PHOTO_DIR, ".drive-managed.json")
 FOLDER_ID = os.environ.get("GDRIVE_FOLDER_ID") or "1R90Kzhmzo6cGszoh3xjm_19aw4_uZj-X"
 IMG_EXTS = (".jpg", ".jpeg", ".png", ".webp")
-KEEP = {"gallery.json"}
 
 
 def sanitize(name):
@@ -37,6 +40,14 @@ def sanitize(name):
     return base + ext
 
 
+def load_state():
+    try:
+        with open(STATE) as f:
+            return set(json.load(f))
+    except Exception:
+        return set()
+
+
 def main():
     url = "https://drive.google.com/drive/folders/%s" % FOLDER_ID
     tmp = tempfile.mkdtemp(prefix="gdrive-")
@@ -47,6 +58,7 @@ def main():
         )
     except subprocess.CalledProcessError as e:
         print("gdown failed:", e)
+        shutil.rmtree(tmp, ignore_errors=True)
         return 1
 
     downloaded = []
@@ -54,33 +66,36 @@ def main():
         for fn in files:
             if fn.lower().endswith(IMG_EXTS):
                 downloaded.append(os.path.join(root, fn))
+
     if not downloaded:
-        print("no images found in folder; leaving gallery unchanged")
+        print("no images downloaded; leaving gallery unchanged")
         shutil.rmtree(tmp, ignore_errors=True)
         return 0
 
     os.makedirs(PHOTO_DIR, exist_ok=True)
-    used, keep_names = {}, set(KEEP)
+    prev = load_state()
+    current = set()
     for src in sorted(downloaded, key=lambda p: os.path.basename(p).lower()):
         name = sanitize(os.path.basename(src))
         root_, ext_ = os.path.splitext(name)
         i = 1
-        while name in used:
+        while name in current:
             name = "%s-%d%s" % (root_, i, ext_)
             i += 1
-        used[name] = 1
-        keep_names.add(name)
+        current.add(name)
         shutil.copyfile(src, os.path.join(PHOTO_DIR, name))
 
-    for fn in os.listdir(PHOTO_DIR):
-        p = os.path.join(PHOTO_DIR, fn)
-        if os.path.isdir(p) or fn in keep_names:
-            continue
-        if fn.lower().endswith(IMG_EXTS):
+    # remove only Drive-sourced files that are no longer in the folder
+    for stale in (prev - current):
+        p = os.path.join(PHOTO_DIR, stale)
+        if os.path.isfile(p):
             os.remove(p)
 
+    with open(STATE, "w") as f:
+        json.dump(sorted(current), f, indent=2)
+
     shutil.rmtree(tmp, ignore_errors=True)
-    print("synced %d image(s) from Drive folder %s" % (len(downloaded), FOLDER_ID))
+    print("synced %d Drive photo(s) from folder %s" % (len(current), FOLDER_ID))
     return 0
 
 
