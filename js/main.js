@@ -276,18 +276,20 @@
     }
 
     function initScroll() {
-      /* drag to scroll (desktop); touch swipe is native */
+      /* drag to scroll (desktop); touch swipe & trackpad are native.
+         Only treat it as a drag past a 10px threshold so ordinary clicks
+         (which jitter a few px) still open the lightbox. */
       var down = false, startX = 0, startLeft = 0, moved = false;
+      var THRESH = 10;
       grid.addEventListener('pointerdown', function (e) {
         if (e.pointerType === 'touch') return;
         down = true; moved = false; startX = e.clientX; startLeft = grid.scrollLeft;
-        grid.classList.add('dragging');
       });
       window.addEventListener('pointermove', function (e) {
         if (!down) return;
         var dx = e.clientX - startX;
-        if (Math.abs(dx) > 3) moved = true;
-        grid.scrollLeft = startLeft - dx;
+        if (!moved && Math.abs(dx) > THRESH) { moved = true; grid.classList.add('dragging'); }
+        if (moved) grid.scrollLeft = startLeft - dx;
       });
       window.addEventListener('pointerup', function () { down = false; grid.classList.remove('dragging'); });
       grid.addEventListener('click', function (e) {
