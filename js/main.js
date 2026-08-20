@@ -119,8 +119,8 @@
     if (!bar || !window.fetch) return;
     var base = 'https://abacus.jasoncameron.dev/';
     var ns = 'luckyjiaxu-com';
-    /* carried over from the retired CounterAPI total so the number stays continuous */
-    var TOTAL_BASE = 83;
+    /* starting point carried over from the retired CounterAPI total */
+    var TOTAL_BASE = 1500;
     var day = new Date().toISOString().slice(0, 10);
     var incToday = false, incTotal = false;
     try {
