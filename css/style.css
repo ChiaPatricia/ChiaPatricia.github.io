@@ -892,7 +892,10 @@ time, .num, .date { font-variant-numeric: tabular-nums; }
 .visitor-bar {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
+  justify-content: center;
+  flex-wrap: wrap;              /* long numbers wrap instead of overflowing */
+  max-width: 100%;
+  gap: 4px 9px;
   font-size: 12.5px;
   font-weight: 500;
   color: #8A6420;
@@ -908,6 +911,7 @@ time, .num, .date { font-variant-numeric: tabular-nums; }
   transform: translateY(-2px) rotate(-1deg);
   box-shadow: inset 0 0 0 3px rgba(255, 244, 200, .38), var(--shadow-1);
 }
+.visitor-bar > span { white-space: nowrap; }   /* never split "1,234,567" */
 .visitor-bar strong {
   color: #A8651B;
   font-weight: 700;

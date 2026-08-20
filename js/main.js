@@ -113,11 +113,14 @@
     window.addEventListener('resize', placeFruits);
   }
 
-  /* cute visitor counter — today's + total, via CounterAPI */
+  /* cute visitor counter — today's + total, via Abacus (no account needed) */
   (function () {
     var bar = document.getElementById('visitorBar');
     if (!bar || !window.fetch) return;
-    var base = 'https://api.counterapi.dev/v1/chiapatricia-github-io/';
+    var base = 'https://abacus.jasoncameron.dev/';
+    var ns = 'luckyjiaxu-com';
+    /* carried over from the retired CounterAPI total so the number stays continuous */
+    var TOTAL_BASE = 83;
     var day = new Date().toISOString().slice(0, 10);
     var incToday = false, incTotal = false;
     try {
@@ -125,25 +128,48 @@
       if (!sessionStorage.getItem('seen')) { sessionStorage.setItem('seen', '1'); incTotal = true; }
     } catch (e) {}
     function counter(key, inc) {
-      return fetch(base + key + (inc ? '/up' : '/'))
-        .then(function (r) { return r.json(); })
-        .then(function (d) { return d.count; });
+      return fetch(base + (inc ? 'hit/' : 'get/') + ns + '/' + key)
+        .then(function (r) {
+          if (r.status === 404) return { value: 0 };   /* key not created yet */
+          return r.ok ? r.json() : null;
+        })
+        .then(function (d) {
+          return d && typeof d.value === 'number' && isFinite(d.value) ? d.value : NaN;
+        })
+        .catch(function () { return NaN; });
     }
     function countUp(el, n) {
+      if (!isFinite(n)) { el.textContent = '—'; return; }   /* never render NaN */
+      var settled = Math.round(n).toLocaleString();
+      el.textContent = settled;             /* the real number, however large */
+      /* background tabs throttle rAF and timers, which would freeze the tween
+         on a partial number, so only animate while the page is visible */
+      if (document.hidden) return;
       var t0 = null;
       function step(t) {
         if (!t0) t0 = t;
         var p = Math.min((t - t0) / 700, 1);
-        el.textContent = Math.round(n * (1 - Math.pow(1 - p, 3))).toLocaleString();
+        el.textContent = p < 1
+          ? Math.round(n * (1 - Math.pow(1 - p, 3))).toLocaleString()
+          : settled;
         if (p < 1) requestAnimationFrame(step);
       }
       requestAnimationFrame(step);
+      document.addEventListener('visibilitychange', function settle() {
+        if (!document.hidden) return;
+        el.textContent = settled;           /* tab hidden mid-tween: settle now */
+        document.removeEventListener('visibilitychange', settle);
+      });
     }
     Promise.all([counter('today-' + day, incToday), counter('total', incTotal)])
       .then(function (v) {
+        var today = v[0];
+        var total = isFinite(v[1]) ? v[1] + TOTAL_BASE : NaN;
+        /* only reveal the bar when both numbers are real */
+        if (!isFinite(today) || !isFinite(total)) return;
         bar.hidden = false;
-        countUp(bar.querySelector('[data-v="today"]'), v[0]);
-        countUp(bar.querySelector('[data-v="total"]'), v[1]);
+        countUp(bar.querySelector('[data-v="today"]'), today);
+        countUp(bar.querySelector('[data-v="total"]'), total);
       })
       .catch(function () { /* counter service unavailable: keep the bar hidden */ });
   })();
