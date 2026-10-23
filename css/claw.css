@@ -528,7 +528,45 @@ html:not(.js) .claw .js-only { display: none; }
   gap: 8px 24px;
 }
 
-.board-head h2 { font-size: 28px; }
+.board-head h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 28px;
+}
+
+.board-head .live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--pill);
+  background: var(--green-soft);
+  color: var(--green-deep);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .02em;
+}
+
+.board-head .live[hidden] { display: none; }
+
+.board-head .live i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: board-live 1.6s ease-in-out infinite;
+}
+
+@keyframes board-live {
+  50% { opacity: .25; }
+}
+
+.board-list li.is-up { animation: board-up 1.8s ease-out; }
+
+@keyframes board-up {
+  from { background: #ffe39a; }
+}
 .board-rule { font-size: 14px; color: var(--muted); }
 
 .board-name {
@@ -748,4 +786,6 @@ html:not(.js) .claw .js-only { display: none; }
 
   .claw-win .card,
   .claw-shelf li.is-new { animation-duration: 1ms; }
+
+  .board-head .live i { animation: none; }
 }

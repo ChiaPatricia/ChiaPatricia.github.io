@@ -19,8 +19,15 @@ const MAX_NAME = 16;
 const STEP = 30; // the most points one request may add (a game cannot win faster than that)
 const GAP = 5; // seconds between two requests from the same player
 
+// The board is asked for every few seconds by every open page, so it is kept for a moment.
 function doGet() {
-  return reply_({ top: top_() });
+  const cache = CacheService.getScriptCache();
+  let body = cache.get('top');
+  if (!body) {
+    body = JSON.stringify({ top: top_() });
+    cache.put('top', body, 3);
+  }
+  return ContentService.createTextOutput(body).setMimeType(ContentService.MimeType.JSON);
 }
 
 function doPost(e) {
@@ -69,6 +76,7 @@ function doPost(e) {
   } finally {
     lock.releaseLock();
   }
+  cache.remove('top');
   return reply_({ top: top_(), rank: rank_(id) });
 }
 

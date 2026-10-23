@@ -3,6 +3,8 @@
 // Each browser gets a random id, never shown, so one player's catches add up under their name.
 // Until the board is set up, this device keeps its own score.
 
+declare const TESTING: boolean; // set by the build
+
 export interface Row {
   name: string;
   points: number;
@@ -68,7 +70,7 @@ export class Board {
   constructor(readonly url: string) {}
 
   get shared() {
-    return /^https:\/\/script\.google(usercontent)?\.com\//.test(this.url);
+    return /^https:\/\/script\.google(usercontent)?\.com\//.test(this.url) || (TESTING && /^http:\/\/(localhost|127\.0\.0\.1):\d+\//.test(this.url));
   }
 
   async load(): Promise<Standing> {

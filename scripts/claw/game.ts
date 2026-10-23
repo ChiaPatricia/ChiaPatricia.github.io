@@ -285,15 +285,18 @@ export async function startClaw() {
   const board = new Board(root.dataset.boardUrl ?? '');
   const boardList = document.querySelector<HTMLOListElement>('ol[data-board]');
   const boardNote = document.querySelector<HTMLElement>('[data-board-note]');
+  const liveMark = document.querySelector<HTMLElement>('[data-live]');
   const nameForm = document.querySelector<HTMLFormElement>('[data-name-form]');
   const nameInput = document.querySelector<HTMLInputElement>('#claw-name') ?? document.createElement('input');
   nameInput.value = myName();
   let standing: Standing | null = null;
   let trouble = false;
 
-  const row = (rank: string, r: { name: string; points: number; wins: number; golden: number }, me: boolean) => {
+  const row = (rank: string, r: { name: string; points: number; wins: number; golden: number }, me: boolean, key: string) => {
     const li = document.createElement('li');
     if (me) li.className = 'is-me';
+    li.dataset.key = key;
+    li.dataset.points = String(r.points);
     const cells = [
       ['rk', rank],
       ['nm', r.name || tr(T.you)],
@@ -314,24 +317,51 @@ export async function startClaw() {
     return li;
   };
 
+  // When the board changes, rows slide to their new places and a score that went up flashes.
+  let lastPoints = new Map<string, number>();
   const renderBoard = () => {
     if (!boardList) return;
     const me = mine();
     const items: HTMLLIElement[] = [];
+    const seen = new Map<string, number>();
+    const keyOf = (name: string) => {
+      const n = (seen.get(name) ?? 0) + 1;
+      seen.set(name, n);
+      return `${name}#${n}`;
+    };
     if (board.shared && standing) {
       standing.top.forEach((r, i) => {
         const isMe = standing!.rank ? standing!.rank === i + 1 : !!me.name && r.name === me.name;
-        items.push(row(i < 3 ? ['🥇', '🥈', '🥉'][i] : String(i + 1), r, isMe));
+        items.push(row(i < 3 ? ['🥇', '🥈', '🥉'][i] : String(i + 1), r, isMe, keyOf(r.name)));
       });
       if (standing.rank && standing.rank > standing.top.length && me.points > 0) {
         const gap = document.createElement('li');
         gap.className = 'gap';
         gap.textContent = '⋯';
-        items.push(gap, row(String(standing.rank), me, true));
+        items.push(gap, row(String(standing.rank), me, true, 'me'));
       }
-    } else if (me.points > 0) items.push(row('·', me, true));
+    } else if (me.points > 0) items.push(row('·', me, true, 'me'));
+
+    const before = new Map<string, number>();
+    for (const li of boardList.querySelectorAll<HTMLElement>('li[data-key]')) before.set(li.dataset.key!, li.getBoundingClientRect().top);
     boardList.replaceChildren(...items);
+    for (const li of items) {
+      const key = li.dataset.key;
+      if (!key) continue;
+      const points = Number(li.dataset.points);
+      const had = lastPoints.get(key);
+      if (had !== undefined && points > had) li.classList.add('is-up');
+      if (calm) continue;
+      const was = before.get(key);
+      const now = li.getBoundingClientRect().top;
+      if (was === undefined && before.size)
+        li.animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 420, easing: 'ease-out' });
+      else if (was !== undefined && Math.abs(was - now) > 1)
+        li.animate([{ transform: `translateY(${was - now}px)` }, { transform: 'none' }], { duration: 560, easing: 'cubic-bezier(.2,.7,.1,1)' });
+    }
+    lastPoints = new Map(items.filter((li) => li.dataset.key).map((li) => [li.dataset.key!, Number(li.dataset.points)]));
     if (boardNote) boardNote.textContent = !board.shared ? tr(T.boardOff) : trouble ? tr(T.boardDown) : items.length ? '' : tr(T.boardNone);
+    if (liveMark) liveMark.hidden = !(board.shared && standing && !trouble);
   };
 
   const refresh = async () => {
@@ -378,10 +408,29 @@ export async function startClaw() {
     void syncScore();
   });
   if (boardNote && board.shared) boardNote.textContent = tr(T.boardWait);
-  void refresh();
-  setInterval(() => {
+  // A returning player with a name and points is put on the board straight away.
+  if (board.shared && myName() && mine().points > 0) void syncScore();
+  else void refresh();
+  // Live: while the board is on screen it is asked for every few seconds, otherwise now and then.
+  let boardInView = false;
+  const boardSection = document.querySelector('.claw-board');
+  if (boardSection)
+    new IntersectionObserver(([e]) => {
+      boardInView = e.isIntersecting;
+      if (boardInView) void refresh();
+    }).observe(boardSection);
+  const poll = () =>
+    window.setTimeout(
+      async () => {
+        if (board.shared && document.visibilityState === 'visible') await refresh();
+        poll();
+      },
+      boardInView ? 4000 : 15000,
+    );
+  if (board.shared) poll();
+  document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') void refresh();
-  }, 90_000);
+  });
 
   const setLevel = (l: Level) => {
     level = l;
