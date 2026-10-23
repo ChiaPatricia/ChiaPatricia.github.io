@@ -42,7 +42,10 @@ const FLOOR_STOP = 0.4; // the hub's lowest point: fingertips just above the flo
 const GRIP = 0.2; // finger angle when closed around a toy
 const MAX_COINS = 9;
 const YAW = 0.3; // the machine is seen a little from the right
-const MACHINE = { top: 2.92, bottom: -1.84, half: 0.5 * (2.66 * Math.cos(YAW) + 2.45 * Math.sin(YAW)) };
+const TURN_LIMIT = 1.45; // how far round it can be turned either way (about 83°), to see where the claw is
+const STOPS = [-1.4, -0.7, 0, 0.7, 1.4]; // the angles the turn buttons step through
+const MACHINE = { top: 2.92, bottom: -1.84, width: 2.66, depth: 2.45 };
+const halfWidth = (yaw: number) => 0.5 * (MACHINE.width * Math.abs(Math.cos(yaw)) + MACHINE.depth * Math.abs(Math.sin(yaw)));
 
 const KEYS: Record<string, 'left' | 'right' | 'up' | 'down'> = {
   ArrowLeft: 'left',
@@ -230,6 +233,9 @@ export async function startClaw() {
   const snug = new THREE.Vector3();
   const won: Kind[] = load<Kind[]>('jia:claw', []).filter((k) => k in EMOJI);
   let manual: [THREE.Vector3, THREE.Vector3] | null = null;
+  let yaw = YAW;
+  let yawTo = YAW;
+  let turning: { id: number; x: number; from: number } | null = null;
 
   // ------------------------------------------------------------------ page
 
@@ -666,6 +672,8 @@ export async function startClaw() {
       e.preventDefault();
       go();
     } else if (e.key === 'c' || e.key === 'C') insertCoin();
+    else if (e.key === 'q' || e.key === 'Q') turn(1);
+    else if (e.key === 'e' || e.key === 'E') turn(-1);
   });
   addEventListener('keyup', (e) => {
     const dir = KEYS[e.key];
@@ -733,18 +741,27 @@ export async function startClaw() {
       drag.sy = e.clientY;
       canvas.setPointerCapture(e.pointerId);
       canvas.style.cursor = 'grabbing';
+    } else if (!role) {
+      turning = { id: e.pointerId, x: e.clientX, from: yawTo };
+      canvas.setPointerCapture(e.pointerId);
+      canvas.style.cursor = 'grabbing';
     }
   });
   canvas.addEventListener('pointermove', (e) => {
+    if (turning && e.pointerId === turning.id) {
+      yawTo = clamp(turning.from - (e.clientX - turning.x) * 0.008, -TURN_LIMIT, TURN_LIMIT);
+      return;
+    }
     if (drag.on) {
       drag.x = clamp((e.clientX - drag.sx) / 55, -1, 1);
       drag.y = clamp(-(e.clientY - drag.sy) / 55, -1, 1);
     } else if (e.pointerType === 'mouse') {
       const role = pickAt(e);
-      canvas.style.cursor = role === 'stick' ? 'grab' : role ? 'pointer' : '';
+      canvas.style.cursor = role === 'stick' || !role ? 'grab' : 'pointer';
     }
   });
   const endDrag = () => {
+    turning = null;
     drag.on = false;
     drag.x = drag.y = 0;
     canvas.style.cursor = '';
@@ -752,6 +769,22 @@ export async function startClaw() {
   canvas.addEventListener('pointerup', endDrag);
   canvas.addEventListener('pointercancel', endDrag);
   canvas.addEventListener('lostpointercapture', endDrag);
+
+  /** Turns the machine to the next angle: +1 turns it to the left (you see its right side). */
+  const turn = (dir: number) => {
+    const next = dir > 0 ? STOPS.find((a) => a > yawTo + 0.05) : [...STOPS].reverse().find((a) => a < yawTo - 0.05);
+    if (next !== undefined) yawTo = next;
+  };
+  for (const b of root.querySelectorAll<HTMLButtonElement>('[data-turn]'))
+    b.addEventListener('click', () => {
+      unlock();
+      sfx.tick();
+      turn(b.dataset.turn === 'left' ? 1 : -1);
+    });
+
+  // Steering is relative to the view: the stick's up is always away from you.
+  const steerX = (m: { x: number; y: number }) => m.x * Math.cos(yaw) - m.y * Math.sin(yaw);
+  const steerZ = (m: { x: number; y: number }) => -m.x * Math.sin(yaw) - m.y * Math.cos(yaw);
 
   const tilt = !calm && finePointer();
   if (tilt)
@@ -774,39 +807,53 @@ export async function startClaw() {
   // ------------------------------------------------------------------ framing
 
   // Frame the machine as large as it can be without hiding behind the controls: only the
-  // controls that overlap it from above or below take away room.
-  const fit = () => {
+  // controls that overlap it from above or below take away room. The controls are measured when
+  // the page changes size; the framing is worked out every frame, since the machine can turn.
+  type Rect = { l: number; r: number; t: number; b: number };
+  let room = { w: 1, h: 1, top: 0, bottom: 0, above: [] as Rect[], below: [] as Rect[] };
+  const measure = () => {
     const w = stage.clientWidth;
     const h = stage.clientHeight;
     if (!w || !h) return;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
+    camera.updateProjectionMatrix();
     const s = stage.getBoundingClientRect();
-    const rel = (el: Element | null) => {
+    const rel = (el: Element | null): Rect | null => {
       const r = el?.getBoundingClientRect();
       return r && r.width ? { l: r.left - s.left, r: r.right - s.left, t: r.top - s.top, b: r.bottom - s.top } : null;
     };
-    const above = ['.claw-head', '.claw-bar'].map((q) => rel(root.querySelector(q)));
-    const below = ['.stick', '.money', '.go', ...(won.length ? ['.claw-shelf'] : [])].map((q) => rel(root.querySelector(q)));
-    let top = (rel(document.querySelector('.site-header'))?.b ?? 50) + 6;
-    let bottom = h - (rel($('.money'))?.t ?? h) + 6;
+    const some = (list: (Rect | null)[]) => list.filter((x): x is Rect => x !== null);
+    room = {
+      w,
+      h,
+      top: (rel(document.querySelector('.site-header'))?.b ?? 0) + 6,
+      bottom: h - (rel($('.coin'))?.t ?? h) + 6,
+      above: some(['.claw-head', '.claw-bar'].map((q) => rel(root.querySelector(q)))),
+      below: some(['.stick', '.money', '.go', ...(won.length ? ['.claw-shelf'] : [])].map((q) => rel(root.querySelector(q)))),
+    };
+    framing(yaw);
+  };
+  const framing = (angle: number) => {
+    const { w, h } = room;
+    let { top, bottom } = room;
     const tan = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
     const halfH = ((MACHINE.top - MACHINE.bottom) / 2) * 1.01;
+    const halfW = halfWidth(angle);
     for (let pass = 0; pass < 4; pass++) {
       const usable = Math.max(0.3, (h - top - bottom) / h);
-      dist = Math.max(halfH / (tan * usable), (MACHINE.half * 1.04) / (tan * camera.aspect)) + 0.3;
-      const half = (MACHINE.half * 1.06 * h) / (2 * tan * (dist - 0.3)) + 10;
+      dist = Math.max(halfH / (tan * usable), (halfW * 1.04) / (tan * camera.aspect)) + 0.3;
+      const half = (halfW * 1.06 * h) / (2 * tan * (dist - 0.3)) + 10;
       const [l, r] = [w / 2 - half, w / 2 + half];
       let moved = false;
-      for (const b of above) if (b && b.r > l && b.l < r && b.b + 6 > top) (top = b.b + 6), (moved = true);
-      for (const b of below) if (b && b.r > l && b.l < r && h - b.t + 6 > bottom) (bottom = h - b.t + 6), (moved = true);
+      for (const b of room.above) if (b.r > l && b.l < r && b.b + 6 > top) (top = b.b + 6), (moved = true);
+      for (const b of room.below) if (b.r > l && b.l < r && h - b.t + 6 > bottom) (bottom = h - b.t + 6), (moved = true);
       if (!moved) break;
     }
-    target.set(0, (MACHINE.top + MACHINE.bottom) / 2 + ((top - bottom) * tan * dist) / h, 0);
-    camera.updateProjectionMatrix();
+    target.set(0, (MACHINE.top + MACHINE.bottom) / 2 + ((top - bottom) * tan * dist) / h, 0.2);
   };
-  new ResizeObserver(fit).observe(stage);
-  fit();
+  new ResizeObserver(measure).observe(stage);
+  measure();
 
   let visible = true;
   new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(stage);
@@ -835,8 +882,8 @@ export async function startClaw() {
         break;
       case 'play': {
         angleTo = OPEN * 0.45;
-        tvx = move.x * SPEED;
-        tvz = -move.y * SPEED;
+        tvx = steerX(move) * SPEED;
+        tvz = steerZ(move) * SPEED;
         time -= dt;
         const sec = Math.ceil(time);
         if (sec !== lastSecond) {
@@ -990,7 +1037,7 @@ export async function startClaw() {
     machine.cable.scale.set(1, len, 1);
     machine.cable.quaternion.setFromUnitVectors(UP, down.normalize().negate());
     for (const p of machine.pivots) p.rotation.z = angle;
-    machine.stick.rotation.set(-move.y * 0.38, 0, -move.x * 0.38);
+    machine.stick.rotation.set(steerZ(move) * 0.38, 0, -steerX(move) * 0.38);
     pressT += dt;
     const press = pressT < 0.1 ? pressT / 0.1 : Math.max(0, 1 - (pressT - 0.1) / 0.2);
     machine.button.position.y = 0.115 - 0.03 * press;
@@ -1020,8 +1067,10 @@ export async function startClaw() {
       camera.lookAt(manual[1]);
       return;
     }
-    const yaw = YAW + view.x * 0.07;
-    camera.position.set(target.x + Math.sin(yaw) * dist, target.y + dist * 0.15 - view.y * 0.3, target.z + Math.cos(yaw) * dist);
+    yaw += (yawTo - yaw) * (1 - Math.exp(-5 * dt));
+    framing(yaw);
+    const look = yaw + view.x * 0.07;
+    camera.position.set(target.x + Math.sin(look) * dist, target.y + dist * 0.15 - view.y * 0.3, target.z + Math.cos(look) * dist);
     camera.lookAt(target);
   };
 
@@ -1030,7 +1079,7 @@ export async function startClaw() {
     Object.assign(window, {
       __claw: {
         look: (pos?: number[], at?: number[]) => (manual = pos && at ? [new THREE.Vector3(...pos), new THREE.Vector3(...at)] : null),
-        state: () => ({ phase, credits, cx, cz, hubY, held: held?.kind, dist, ty: target.y, aspect: camera.aspect, w: stage.clientWidth, h: stage.clientHeight, toys: toys.map((x) => [x.kind, +x.body.p.x.toFixed(2), +x.body.p.y.toFixed(2), +x.body.p.z.toFixed(2)]) }),
+        state: () => ({ phase, credits, cx, cz, hubY, yaw, yawTo, held: held?.kind, dist, ty: target.y, aspect: camera.aspect, w: stage.clientWidth, h: stage.clientHeight, toys: toys.map((x) => [x.kind, +x.body.p.x.toFixed(2), +x.body.p.y.toFixed(2), +x.body.p.z.toFixed(2)]) }),
         aim: (x: number, z: number) => ((cx = x), (cz = z)),
         step: (frames = 60) => {
           for (let i = 0; i < frames; i++) update(1 / 60);

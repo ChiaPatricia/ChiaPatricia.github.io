@@ -98,10 +98,11 @@ html:not(.js) .claw .js-only { display: none; }
   display: flex;
   align-items: center;
   gap: .3em;
-  font-size: clamp(28px, 3.2vw, 44px);
+  font-size: clamp(26px, 2.7vw, 40px);
   font-weight: 700;
   letter-spacing: -.035em;
-  line-height: 1.05;
+  line-height: 1.08;
+  text-wrap: balance;
 }
 
 .claw-head .sticker {
@@ -235,6 +236,41 @@ html:not(.js) .claw .js-only { display: none; }
   gap: 7px;
   padding: 0 8px 6px;
 }
+
+.money .row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.turn {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: var(--shadow-1);
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 120ms var(--ease), background var(--fast) var(--ease);
+}
+
+.turn svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.turn.right svg { transform: scaleX(-1); }
+.turn:hover { background: var(--bg-soft); }
+.turn:active { transform: scale(.92); }
 
 .coin {
   display: inline-flex;
@@ -621,7 +657,7 @@ html:not(.js) .claw .js-only { display: none; }
 
   .claw-bar { max-width: none; }
 
-  .claw-head h1 { font-size: 26px; }
+  .claw-head h1 { font-size: 21px; }
 
   .claw-head .how {
     margin-top: 6px;
@@ -681,6 +717,13 @@ html:not(.js) .claw .js-only { display: none; }
   .coin {
     font-size: 14px;
     padding: .66em 1em .62em;
+  }
+
+  .money .row { gap: 6px; }
+
+  .turn {
+    width: 34px;
+    height: 34px;
   }
 
   .claw-toast {
