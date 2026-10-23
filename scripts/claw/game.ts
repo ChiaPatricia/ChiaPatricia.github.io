@@ -42,7 +42,7 @@ const FLOOR_STOP = 0.4; // the hub's lowest point: fingertips just above the flo
 const GRIP = 0.2; // finger angle when closed around a toy
 const MAX_COINS = 9;
 const YAW = 0.3; // the machine is seen a little from the right
-const MACHINE = { top: 3.48, bottom: -1.84, half: 0.5 * (2.66 * Math.cos(YAW) + 2.45 * Math.sin(YAW)) };
+const MACHINE = { top: 2.92, bottom: -1.84, half: 0.5 * (2.66 * Math.cos(YAW) + 2.45 * Math.sin(YAW)) };
 
 const KEYS: Record<string, 'left' | 'right' | 'up' | 'down'> = {
   ArrowLeft: 'left',
@@ -1007,8 +1007,6 @@ export async function startClaw() {
         m.emissiveIntensity = phase === 'idle' ? (Math.floor(clock * 5) % 3 === i ? 1.8 : 0.2) : 1.1 + 0.25 * Math.sin(clock * 9 + i * 2);
       }
     });
-    machine.topper.position.y = 3.12 + Math.sin(clock * 2) * 0.03;
-    machine.topper.rotation.set(0, celebrating && !calm ? clock * 4 : Math.sin(clock * 0.9) * 0.25, Math.sin(clock * 1.3) * 0.07);
     const secs = phase === 'play' ? String(Math.max(0, Math.ceil(time))).padStart(2, '0') : '--';
     machine.display(credits, secs, phase === 'play' && time <= 5 && Math.floor(time * 4) % 2 === 0, idle);
 

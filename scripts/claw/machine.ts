@@ -1,5 +1,5 @@
 // The claw machine as a 3D model: a pink cabinet, a pale blue glass box with a polka-dot back
-// wall, a lit sign with chasing bulbs, a puffy heart on top, the gantry and its three-fingered claw, a control panel with a
+// wall, a lit sign with chasing bulbs, the gantry and its three-fingered claw, a control panel with a
 // joystick, a button and a little LED display, a coin slot and the prize door.
 // Units are roughly decimetres; the floor inside the glass is y = 0.
 import * as THREE from 'three';
@@ -238,7 +238,6 @@ export interface Machine {
   button: THREE.Mesh;
   slotLight: THREE.MeshStandardMaterial;
   flap: THREE.Group;
-  topper: THREE.Group;
   bulbs: THREE.MeshStandardMaterial[];
   pick: THREE.Object3D[];
   display(credits: number, time: string, blink: boolean, idle: boolean): void;
@@ -354,37 +353,6 @@ export function buildMachine(): Machine {
     mesh(bulbGeo, bulbs[bi++ % 3], x, GH + 0.06, D / 2 + 0.03, false);
   }
 
-  // A puffy heart with a face sits on top.
-  const topper = new THREE.Group();
-  const heartShape = new THREE.Shape();
-  heartShape.moveTo(0, -0.27);
-  heartShape.bezierCurveTo(-0.38, 0.0, -0.28, 0.31, 0, 0.13);
-  heartShape.bezierCurveTo(0.28, 0.31, 0.38, 0.0, 0, -0.27);
-  const heartGeo = new THREE.ExtrudeGeometry(heartShape, { depth: 0.09, bevelEnabled: true, bevelThickness: 0.06, bevelSize: 0.045, bevelSegments: 6, curveSegments: 24 });
-  heartGeo.translate(0, 0, -0.045);
-  const mascot = new THREE.Mesh(heartGeo, new THREE.MeshPhysicalMaterial({ color: '#ff7084', roughness: 0.55, sheen: 1, sheenColor: new THREE.Color('#ffd6dd') }));
-  mascot.castShadow = true;
-  topper.add(mascot);
-  const eye = new THREE.MeshStandardMaterial({ color: '#2b1d1b', roughness: 0.2 });
-  for (const s of [-1, 1]) {
-    const e = new THREE.Mesh(new THREE.SphereGeometry(0.026, 16, 12), eye);
-    e.position.set(s * 0.075, 0.03, 0.1);
-    e.scale.set(1, 1.2, 0.6);
-    topper.add(e);
-    const shine = new THREE.Mesh(new THREE.SphereGeometry(0.009, 8, 6), new THREE.MeshBasicMaterial({ color: '#ffffff' }));
-    shine.position.set(s * 0.075 + 0.009, 0.042, 0.112);
-    topper.add(shine);
-    const c = new THREE.Mesh(new THREE.SphereGeometry(0.03, 12, 8), new THREE.MeshBasicMaterial({ color: '#ffc2cc', transparent: true, opacity: 0.85 }));
-    c.position.set(s * 0.135, -0.02, 0.094);
-    c.scale.set(1.3, 0.7, 0.25);
-    topper.add(c);
-  }
-  const smile = new THREE.Mesh(new THREE.TorusGeometry(0.022, 0.0065, 6, 14, Math.PI), new THREE.MeshBasicMaterial({ color: '#3a2422' }));
-  smile.position.set(0, -0.01, 0.103);
-  smile.rotation.z = Math.PI;
-  topper.add(smile);
-  topper.position.set(0, GH + 0.94, 0.25);
-  root.add(topper);
 
   // The control panel, tilted towards whoever is playing.
   const panel = new THREE.Group();
@@ -602,7 +570,6 @@ export function buildMachine(): Machine {
     button,
     slotLight,
     flap,
-    topper,
     bulbs,
     pick: [ball, button, ...root.children.filter((o) => o.userData.role === 'coin')],
     display,
