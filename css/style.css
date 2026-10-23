@@ -134,6 +134,32 @@ time, .num, .date { font-variant-numeric: tabular-nums; }
 .lang-switch a:hover { color: var(--ink); }
 .lang-switch a.active { background: #fff; color: var(--ink); box-shadow: var(--shadow-1); }
 
+/* The claw machine (/claw.html): a little claw holding a ball, next to the menu. */
+.site-nav { margin-left: auto; }
+.claw-link {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 38px;
+  height: 38px;
+  margin-left: 16px;
+  border-radius: 50%;
+  background: var(--yellow-soft);
+  color: var(--ink);
+  transition: background var(--fast) var(--ease), box-shadow var(--fast) var(--ease);
+}
+.claw-link svg { width: 26px; height: 26px; overflow: visible; }
+.claw-link .cable, .claw-link .prong { fill: none; stroke: currentColor; stroke-width: 2.3; stroke-linecap: round; }
+.claw-link .hub { fill: var(--tomato); }
+.claw-link .ball { fill: #ff8fa3; }
+.claw-link .shine { fill: #fff; opacity: .8; }
+.claw-link .grab { transform-origin: 16px 1.5px; }
+.claw-link:hover { background: #fbe6a6; }
+.claw-link:hover .grab { animation: claw-swing 800ms var(--ease) infinite alternate; }
+.claw-link[aria-current="page"] { background: var(--tomato-soft); box-shadow: inset 0 0 0 1.5px var(--tomato); }
+@keyframes claw-swing { from { transform: rotate(-10deg); } to { transform: rotate(10deg); } }
+@media (prefers-reduced-motion: reduce) { .claw-link:hover .grab { animation: none; } }
+
 .menu-btn { display: none; background: none; border: none; padding: 8px; cursor: pointer; }
 .menu-btn span { display: block; width: 20px; height: 2px; background: var(--ink); border-radius: 2px; }
 .menu-btn span + span { margin-top: 5px; }
@@ -1163,7 +1189,8 @@ html[lang^="zh"] .news-card p, html[lang^="zh"] .news-list p { line-height: 1.8;
   .award .a-when .y { display: inline; font-size: 15px; }
   .award .a-when .m { display: inline; margin-left: 6px; }
 
-  .menu-btn { display: block; }
+  .menu-btn { display: block; order: 2; }
+  .claw-link { order: 1; margin-left: auto; margin-right: 4px; }
   .site-nav {
     position: absolute;
     top: 65px;

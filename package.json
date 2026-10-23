@@ -1,0 +1,15 @@
+{
+  "name": "luckyjiaxu",
+  "private": true,
+  "type": "module",
+  "description": "Jia Xu's site. Only the claw machine (/claw.html) has a build step; everything else is plain HTML.",
+  "scripts": {
+    "build:claw": "esbuild scripts/claw/game.ts --bundle --minify --format=esm --target=es2020 --legal-comments=eof --outfile=js/claw.js --define:TESTING=false",
+    "build:claw:test": "esbuild scripts/claw/game.ts --bundle --minify --format=esm --target=es2020 --legal-comments=eof --outfile=js/claw.js --define:TESTING=true"
+  },
+  "devDependencies": {
+    "@types/three": "0.186.0",
+    "esbuild": "0.28.2",
+    "three": "0.186.1"
+  }
+}

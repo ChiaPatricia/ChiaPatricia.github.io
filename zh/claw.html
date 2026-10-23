@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>抓娃娃机 — Jia Xu</title>
+  <meta name="description" content="一台小小的 3D 抓娃娃机，里面每个毛绒玩具都来自我的一组照片。">
+  <link rel="canonical" href="https://luckyjiaxu.com/zh/claw.html">
+  <link rel="alternate" hreflang="en" href="https://luckyjiaxu.com/claw.html">
+  <link rel="alternate" hreflang="zh" href="https://luckyjiaxu.com/zh/claw.html">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <meta property="og:title" content="抓娃娃机 — Jia Xu">
+  <meta property="og:description" content="投币，摇杆，抓一个毛绒玩具。">
+  <meta property="og:image" content="https://luckyjiaxu.com/assets/jia.jpg">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css?v=20261022c">
+  <link rel="stylesheet" href="/css/claw.css?v=20261022c">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="/zh/">Jia Xu<span class="dot">.</span></a>
+    <button class="menu-btn" aria-label="菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+    <nav class="site-nav">
+      <a class="nav-link" href="/zh/">首页</a>
+      <a class="nav-link" href="/zh/publications.html">论文</a>
+      <a class="nav-link" href="/zh/projects.html">项目</a>
+      <a class="nav-link" href="/zh/experience.html">经历</a>
+      <a class="nav-link" href="/zh/awards.html">荣誉</a>
+      <a class="nav-link" href="/zh/hobbies.html">爱好</a>
+      <div class="lang-switch" role="group" aria-label="语言">
+        <a data-lang="en" href="/claw.html">EN</a>
+        <a class="active" data-lang="zh" href="/zh/claw.html">中</a>
+      </div>
+    </nav>
+    <a class="claw-link" aria-current="page" href="/zh/claw.html" aria-label="抓娃娃机" title="抓娃娃机">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><g class="grab"><path class="cable" d="M16 1.5v6"/><rect class="hub" x="10.5" y="7" width="11" height="5.2" rx="2.6"/><path class="prong" d="M12.4 12c-3.8 2.3-4.7 6.9-1.7 10.6"/><path class="prong" d="M19.6 12c3.8 2.3 4.7 6.9 1.7 10.6"/><circle class="ball" cx="16" cy="21.6" r="4.6"/><circle class="shine" cx="14.4" cy="20" r="1.2"/></g></svg>
+    </a>
+  </div>
+</header>
+
+<main>
+  <section class="claw" data-claw data-board-url="" aria-labelledby="claw-title">
+    <div class="claw-stage" data-stage>
+      <canvas data-canvas aria-hidden="true"></canvas>
+      <p class="visually-hidden">一台 3D 抓娃娃机，里面装满毛绒玩具：松鼠、枫叶、小黄鸭、睡觉的月亮和蜗牛。</p>
+      <p class="claw-loading" data-loading>
+        <span class="bob" aria-hidden="true">🧸</span>
+        <span class="js-only">正在往里塞娃娃……</span>
+        <noscript>抓娃娃机需要 JavaScript 才能玩。</noscript>
+      </p>
+      <p class="claw-loading" data-failed hidden>这个浏览器显示不了 3D 抓娃娃机。</p>
+    </div>
+
+    <div class="claw-head">
+      <h1 id="claw-title">抓娃娃机<span class="sticker" aria-hidden="true">🕹️</span></h1>
+      <p class="how">投币，用摇杆移动爪子，再按「抓」。每个娃娃都来自我的一组<a href="/photographs/zh/">照片</a>。</p>
+      <p class="keys">键盘：方向键移动，空格抓，C 投币。</p>
+    </div>
+
+    <div class="claw-bar">
+      <div class="levels" role="radiogroup" aria-labelledby="claw-level">
+        <span class="label" id="claw-level">难度</span>
+        <button type="button" class="pill level" role="radio" aria-checked="false" data-level="easy">简单</button>
+        <button type="button" class="pill level" role="radio" aria-checked="true" data-level="normal">普通</button>
+        <button type="button" class="pill level" role="radio" aria-checked="false" data-level="hard">困难</button>
+      </div>
+      <a class="pill to-board" href="#board"><span aria-hidden="true">🏆</span> 排行榜</a>
+      <button type="button" class="pill sound" data-sound aria-pressed="true">
+        <span class="on" aria-hidden="true">🔊</span>
+        <span class="off" aria-hidden="true">🔇</span>
+        <span class="visually-hidden">声音</span>
+      </button>
+    </div>
+
+    <div class="claw-pad">
+      <div class="stick" data-stick aria-hidden="true">
+        <span class="knob" data-knob></span>
+      </div>
+      <div class="money">
+        <button type="button" class="coin" data-coin><span aria-hidden="true">🪙</span> 投币</button>
+        <span class="credits" aria-live="polite"><span class="n" data-credits>0</span> 币</span>
+      </div>
+      <button type="button" class="go" data-go>抓</button>
+    </div>
+
+    <aside class="claw-shelf" aria-labelledby="claw-shelf">
+      <h2 id="claw-shelf">我的战利品 <span data-shelf-count></span></h2>
+      <ul data-shelf></ul>
+      <p data-shelf-empty>还没有</p>
+    </aside>
+
+    <p class="claw-toast" data-toast aria-hidden="true"></p>
+    <p class="visually-hidden" aria-live="polite" data-say></p>
+
+    <div class="claw-win" data-win hidden>
+      <div class="card" role="dialog" aria-labelledby="claw-won">
+        <p class="rare" data-rare hidden>超稀有！</p>
+        <p class="won" id="claw-won">抓到啦！</p>
+        <p class="what" data-what></p>
+        <p class="score" data-score></p>
+        <a class="home" data-home href="/photographs/zh/"></a>
+        <div class="row">
+          <button type="button" class="pill again" data-again><span aria-hidden="true">🪙</span> 再来一局</button>
+          <button type="button" class="pill" data-keep>收下</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="claw-board" id="board" aria-labelledby="board-title">
+    <div class="container">
+      <div class="board-head">
+        <h2 id="board-title">排行榜 <span aria-hidden="true">🏆</span></h2>
+        <p class="board-rule">每抓到一个：简单 1 分 · 普通 2 分 · 困难 3 分，金色松鼠算三倍。</p>
+      </div>
+      <form class="board-name" data-name-form>
+        <label for="claw-name">你的名字</label>
+        <input id="claw-name" name="name" maxlength="16" autocomplete="nickname" placeholder="起个名字上榜">
+        <button type="submit" class="pill">保存</button>
+      </form>
+      <p class="board-note" data-board-note aria-live="polite"></p>
+      <ol class="board-list" data-board></ol>
+      <p class="board-privacy">名字会公开显示在榜上；你的分数也会存在这个浏览器里。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container inner">
+    <div class="visitor-bar" id="visitorBar" hidden>
+      <svg class="v-sun" viewBox="0 0 40 40" aria-hidden="true"><polygon points="36,20 27.4,23.1 31.3,31.3 23.1,27.4 20,36 16.9,27.4 8.7,31.3 12.6,23.1 4,20 12.6,16.9 8.7,8.7 16.9,12.6 20,4 23.1,12.6 31.3,8.7 27.4,16.9" fill="#E9A81C"/><polygon points="34,20 26.1,22.5 29.9,29.9 22.5,26.1 20,34 17.5,26.1 10.1,29.9 13.9,22.5 6,20 13.9,17.5 10.1,10.1 17.5,13.9 20,6 22.5,13.9 29.9,10.1 26.1,17.5" fill="#F2C043" transform="rotate(22.5 20 20)"/><circle cx="20" cy="20" r="8" fill="#6B4013"/><circle cx="17" cy="18" r="1.1" fill="#9C6B2F"/><circle cx="22.5" cy="19" r="1.1" fill="#9C6B2F"/><circle cx="19" cy="23" r="1.1" fill="#9C6B2F"/><circle cx="23" cy="23.5" r="1" fill="#8A5A22"/><circle cx="16.5" cy="22" r="1" fill="#8A5A22"/></svg>
+      <span>今日访客 <strong data-v="today">0</strong></span>
+      <span class="v-sep">·</span>
+      <span>总访问 <strong data-v="total">0</strong></span>
+    </div>
+    <div class="social">
+      <a href="https://github.com/ChiaPatricia" target="_blank" rel="noopener" aria-label="GitHub" style="--hc:var(--ink)">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 2.87-.39c.97 0 1.95.13 2.87.39 2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.73.81 1.18 1.83 1.18 3.09 0 4.41-2.7 5.38-5.26 5.67.41.35.77 1.05.77 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+      </a>
+      <a href="https://scholar.google.com/citations?user=ZnNi2iMAAAAJ" target="_blank" rel="noopener" aria-label="Google Scholar" style="--hc:var(--blue)">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/jia-xu-0578b919a/" target="_blank" rel="noopener" aria-label="LinkedIn" style="--hc:var(--blue)">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+      </a>
+      <a href="https://twitter.com/JIAXU54788595" target="_blank" rel="noopener" aria-label="X (Twitter)" style="--hc:var(--ink)">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.66l-5.21-6.82-5.97 6.82H1.67l7.73-8.84L1.25 2.25h6.83l4.71 6.23 5.45-6.23zm-1.16 17.52h1.83L7.08 4.13H5.12l11.96 15.64z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/jiaxu306/" target="_blank" rel="noopener" aria-label="Instagram" style="--hc:var(--tomato)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.9" y="2.9" width="18.2" height="18.2" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="mailto:jiaxu@alumni.upenn.edu" aria-label="邮箱" style="--hc:var(--orange)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="4.5" width="19" height="15" rx="3"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></svg>
+      </a>
+    </div>
+    <p class="footer-note">© 2026 Jia Xu
+      <span class="tomato-egg" title=":)">
+        <svg viewBox="0 0 64 64"><circle cx="32" cy="38" r="21" fill="#E4573D"/><circle cx="24.5" cy="31.5" r="5.5" fill="#F0862F" opacity=".6"/><rect x="30.75" y="9.5" width="2.5" height="8" rx="1.25" fill="#22A06B"/><path d="M32 18 C 27 12.5, 19 13.5, 15.5 18.5 C 21.5 21, 28 20.5, 32 18 Z" fill="#22A06B"/><path d="M32 18 C 37 12.5, 45 13.5, 48.5 18.5 C 42.5 21, 36 20.5, 32 18 Z" fill="#22A06B"/></svg>
+      </span>
+    </p>
+  </div>
+</footer>
+
+<script src="/js/main.js?v=20261022c"></script>
+<script type="module" src="/js/claw.js?v=20261022c"></script>
+</body>
+</html>

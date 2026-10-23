@@ -72,4 +72,6 @@
     <xhtml:link rel="alternate" hreflang="zh" href="https://luckyjiaxu.com/zh/hobbies.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://luckyjiaxu.com/hobbies.html"/>
   </url>
+  <url><loc>https://luckyjiaxu.com/claw.html</loc><xhtml:link rel="alternate" hreflang="en" href="https://luckyjiaxu.com/claw.html"/><xhtml:link rel="alternate" hreflang="zh" href="https://luckyjiaxu.com/zh/claw.html"/></url>
+  <url><loc>https://luckyjiaxu.com/zh/claw.html</loc><xhtml:link rel="alternate" hreflang="en" href="https://luckyjiaxu.com/claw.html"/><xhtml:link rel="alternate" hreflang="zh" href="https://luckyjiaxu.com/zh/claw.html"/></url>
 </urlset>
